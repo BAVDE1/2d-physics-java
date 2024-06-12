@@ -1,29 +1,11 @@
 package src;
 
-import src.Window;
+import src.render.Window;
 
-public class Main implements Window {
+public class Main extends Window {
     public static void main(String[] args) {
         Window window = new Main();
-    }
-
-    @Override
-    public boolean running() {
-        return true;
-    }
-
-    @Override
-    public void events() {
-
-    }
-
-    @Override
-    public void update() {
-
-    }
-
-    @Override
-    public void render() {
-
+        window.initWindow("some window", 400, 300);
+        window.open();
     }
 }
