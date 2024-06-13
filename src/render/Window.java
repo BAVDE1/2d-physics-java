@@ -2,17 +2,25 @@ package src.render;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.LinkedList;
 
 public class Window {
     public boolean initiated = false;
     public boolean open = false;
-    public JFrame frame;
+    public JFrame frame = new JFrame();
+
+    public LinkedList<Event> eventQueue = new LinkedList<>();
+
     public int width;
     public int height;
 
     public void initWindow(String windowName, int ScreenWidth, int ScreenHeight) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        initWindow(windowName, (screen.width/2) - (ScreenWidth/2), (screen.height/2) - (ScreenHeight/2), ScreenWidth, ScreenHeight);
+        int x = (screen.width/2) - (ScreenWidth/2);
+        int y = (screen.height/2) - (ScreenHeight/2);
+        initWindow(windowName, x, y, ScreenWidth, ScreenHeight);
     }
 
     public void initWindow(String windowName, int posX, int posY, int ScreenWidth, int ScreenHeight) {
@@ -20,29 +28,52 @@ public class Window {
             width = ScreenWidth;
             height = ScreenHeight;
 
-            JFrame newFrame = new JFrame(windowName);
-            newFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            newFrame.setBounds(posX, posY, width, height);
-            frame = newFrame;
-
+            frame.setName(windowName);
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frame.addWindowListener(createWindowListener());
+            frame.setBounds(posX, posY, width, height);
             initiated = true;
         }
     }
 
+    private WindowListener createWindowListener() {
+        return new WindowListener() {
+            public void windowOpened(WindowEvent e) {}
+            public void windowClosed(WindowEvent e) {}
+            public void windowClosing(WindowEvent e) {queueEvent(Event.CLOSE_PRESSED);}
+            public void windowIconified(WindowEvent e) {queueEvent(Event.WINDOW_ICONIFIED);}
+            public void windowDeiconified(WindowEvent e) {queueEvent(Event.WINDOW_DEICONIFIED);}
+            public void windowActivated(WindowEvent e) {queueEvent(Event.WINDOW_FOCUSSED);}
+            public void windowDeactivated(WindowEvent e) {queueEvent(Event.WINDOW_BLURRED);}
+        };
+    }
+
+    public void setWindowIcon(Image image) {
+        frame.setIconImage(image);
+    }
+
+    public void queueEvent(int eventType) {
+        Event event = new Event(eventType);
+        eventQueue.add(event);
+    }
+
+    public LinkedList<Event> popAllEvents() {
+        LinkedList<Event> e = new LinkedList<>(eventQueue);
+        eventQueue.clear();
+        return e;
+    }
+
     public void open() {
-        if (initiated) {
-            frame.setVisible(true);
-            open = true;
-        }
+        open = true;
+        frame.setVisible(true);
+    }
+
+    public void close() {
+        open = false;
+        frame.setVisible(false);
+    }
+
+    public void shutDown() {
+        System.exit(0);
     }
 }
-
-
-//public static void main(String[] args) {
-//    JFrame frame = new JFrame("Window");
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//    Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-//    frame.setBounds((screen.width/2) - 150, (screen.height/2) - 150, 300, 300);
-//    frame.setVisible(true);
-//}
