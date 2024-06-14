@@ -13,6 +13,21 @@ public class Vec2 {
         this.x = x;
         this.y = y;
     }
+    
+    public Vec2 getClone() {
+        return new Vec2(x, y);
+    }
+
+    /**
+     * =========
+     * BASIC USE
+     * =========
+     */
+
+    public void addSelf(double d) {
+        x += d;
+        y += d;
+    }
 
     public void addSelf(Vec2 vec) {
         x += vec.x;
@@ -33,6 +48,11 @@ public class Vec2 {
 
     public static Vec2 add(Vec2 vec1, Vec2 vec2) {
         return new Vec2(vec1.x + vec2.x, vec1.y + vec2.y);
+    }
+
+    public void subSelf(double d) {
+        x -= d;
+        y -= d;
     }
 
     public void subSelf(Vec2 vec) {
@@ -56,6 +76,11 @@ public class Vec2 {
         return new Vec2(vec1.x - vec2.x, vec1.y - vec2.y);
     }
 
+    public void divSelf(double d) {
+        x /= d;
+        y /= d;
+    }
+
     public void divSelf(Vec2 vec) {
         x /= vec.x;
         y /= vec.y;
@@ -75,6 +100,11 @@ public class Vec2 {
 
     public static Vec2 div(Vec2 vec1, Vec2 vec2) {
         return new Vec2(vec1.x / vec2.x, vec1.y / vec2.y);
+    }
+
+    public void mulSelf(double d) {
+        x *= d;
+        y *= d;
     }
 
     public void mulSelf(Vec2 vec) {

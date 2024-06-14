@@ -3,14 +3,15 @@ package src;
 import src.game.Game;
 import src.utility.Constants;
 import src.render.Window;
+import src.utility.Vec2;
 
 public class Main extends Window {
     public static void main(String[] args) {
         Window window = new Main();
         Game game = new Game(window);
 
-        window.initWindow(Constants.WINDOW_NAME, Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
-        window.scaleWindow(Constants.RES_MUL);
+        window.initWindow(Constants.WINDOW_NAME, new Vec2(Constants.BASE_WIDTH, Constants.BASE_HEIGHT));
+        window.scaleWindow(1);
         window.open();
 
         Thread timeStepper = Main.newTimeStepper(Constants.DT, window, game);

@@ -18,21 +18,21 @@ public class Window {
     public Vec2 size;
     public double scale = 1;
 
-    public void initWindow(String windowName, int width, int height) {
+    public void initWindow(String windowName, Vec2 size) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screen.width/2) - (width/2);
-        int y = (screen.height/2) - (height/2);
-        initWindow(windowName, x, y, width, height);
+        Vec2 screenSize = new Vec2(screen.width, screen.height);
+        Vec2 pos = screenSize.div(2).sub(size.div(2));
+        initWindow(windowName, pos, size);
     }
 
-    public void initWindow(String windowName, int posX, int posY, int width, int height) {
+    public void initWindow(String windowName, Vec2 pos, Vec2 size) {
         if (!initialized) {
-            size = new Vec2(width, height);
+            this.size = size;
 
             frame.setName(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.addWindowListener(newWindowListener());
-            frame.setBounds(posX, posY, (int) size.x, (int) size.y);
+            frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
             frame.setResizable(false);
             initialized = true;
         }
@@ -55,7 +55,7 @@ public class Window {
 
         // retain position
         Vec2 framePos = new Vec2(frame.getX(), frame.getY());
-        Vec2 newPos = (framePos.add(size.div(2))).sub(scaledSize.div(2));
+        Vec2 newPos = framePos.add(size.div(2)).sub(scaledSize.div(2));
 
         frame.setBounds((int) newPos.x, (int) newPos.y, (int) scaledSize.x, (int) scaledSize.y);
         scale = scaleMultiplier;
@@ -77,7 +77,9 @@ public class Window {
         return e;
     }
 
-    public void blitSurface(Surface surface) {}
+    public void blitSurface(Surface surface) {
+
+    }
 
     public void open() {
         open = true;
