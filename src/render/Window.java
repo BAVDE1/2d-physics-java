@@ -4,6 +4,8 @@ import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.LinkedList;
@@ -13,7 +15,7 @@ public class Window {
     public boolean open = false;
     public JFrame frame = new JFrame();
 
-    public LinkedList<Event> eventQueue = new LinkedList<>();
+    public LinkedList<Event<?>> eventQueue = new LinkedList<>();
 
     public Vec2 size;
     public double scale = 1;
@@ -31,6 +33,7 @@ public class Window {
 
             frame.setName(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frame.addMouseListener(newMouseListener());
             frame.addWindowListener(newWindowListener());
             frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
             frame.setResizable(false);
@@ -38,15 +41,25 @@ public class Window {
         }
     }
 
+    private MouseListener newMouseListener() {
+        return new MouseListener() {
+            public void mouseClicked(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_PRESSED, e));}
+            public void mouseReleased(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_RELEASED, e));}
+            public void mouseEntered(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_ENTERED, e));}
+            public void mouseExited(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_EXITED, e));}
+        };
+    }
+
     private WindowListener newWindowListener() {
         return new WindowListener() {
             public void windowOpened(WindowEvent e) {}
             public void windowClosed(WindowEvent e) {}
-            public void windowClosing(WindowEvent e) {queueEvent(Event.CLOSE_PRESSED);}
-            public void windowIconified(WindowEvent e) {queueEvent(Event.WINDOW_MINIMISED);}
-            public void windowDeiconified(WindowEvent e) {queueEvent(Event.WINDOW_MAXIMISED);}
-            public void windowActivated(WindowEvent e) {queueEvent(Event.WINDOW_FOCUSSED);}
-            public void windowDeactivated(WindowEvent e) {queueEvent(Event.WINDOW_BLURRED);}
+            public void windowClosing(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.CLOSE_PRESSED, e));}
+            public void windowIconified(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_MINIMISED, e));}
+            public void windowDeiconified(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_MAXIMISED, e));}
+            public void windowActivated(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_FOCUSSED, e));}
+            public void windowDeactivated(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_BLURRED, e));}
         };
     }
 
@@ -66,13 +79,12 @@ public class Window {
         frame.setIconImage(image);
     }
 
-    public void queueEvent(int eventType) {
-        Event event = new Event(eventType);
+    public void queueEvent(Event<?> event) {
         eventQueue.add(event);
     }
 
-    public LinkedList<Event> popAllEvents() {
-        LinkedList<Event> e = new LinkedList<>(eventQueue);
+    public LinkedList<Event<?>> popAllEvents() {
+        LinkedList<Event<?>> e = new LinkedList<>(eventQueue);
         eventQueue.clear();
         return e;
     }

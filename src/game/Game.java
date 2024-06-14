@@ -12,7 +12,7 @@ public class Game {
 
     public void events() {
         if (!window.eventQueue.isEmpty()) {
-            for (Event ev : window.popAllEvents()) {
+            for (Event<?> ev : window.popAllEvents()) {
                 if (ev.type == Event.CLOSE_PRESSED) {
                     window.shutDown();
                 }

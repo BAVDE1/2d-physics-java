@@ -11,7 +11,7 @@ public class Main extends Window {
         Game game = new Game(window);
 
         window.initWindow(Constants.WINDOW_NAME, new Vec2(Constants.BASE_WIDTH, Constants.BASE_HEIGHT));
-        window.scaleWindow(1);
+        window.scaleWindow(Constants.RES_MUL);
         window.open();
 
         Thread timeStepper = Main.newTimeStepper(Constants.DT, window, game);
