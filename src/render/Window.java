@@ -4,10 +4,9 @@ import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
 public class Window {
@@ -31,36 +30,17 @@ public class Window {
         if (!initialized) {
             this.size = size;
 
-            frame.setName(windowName);
+            frame.setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.addMouseListener(newMouseListener());
-            frame.addWindowListener(newWindowListener());
             frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
             frame.setResizable(false);
+
+            frame.addMouseListener(Listener.newMouseListener(this));
+            frame.addWindowListener(Listener.newWindowListener(this));
+            frame.addKeyListener(Listener.newKeyListener(this));
+
             initialized = true;
         }
-    }
-
-    private MouseListener newMouseListener() {
-        return new MouseListener() {
-            public void mouseClicked(MouseEvent e) {}
-            public void mousePressed(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_PRESSED, e));}
-            public void mouseReleased(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_RELEASED, e));}
-            public void mouseEntered(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_ENTERED, e));}
-            public void mouseExited(MouseEvent e) {queueEvent(new Event<MouseEvent>(Event.MOUSE_EXITED, e));}
-        };
-    }
-
-    private WindowListener newWindowListener() {
-        return new WindowListener() {
-            public void windowOpened(WindowEvent e) {}
-            public void windowClosed(WindowEvent e) {}
-            public void windowClosing(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.CLOSE_PRESSED, e));}
-            public void windowIconified(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_MINIMISED, e));}
-            public void windowDeiconified(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_MAXIMISED, e));}
-            public void windowActivated(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_FOCUSSED, e));}
-            public void windowDeactivated(WindowEvent e) {queueEvent(new Event<WindowEvent>(Event.WINDOW_BLURRED, e));}
-        };
     }
 
     public void scaleWindow(double scaleMultiplier) {

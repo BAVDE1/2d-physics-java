@@ -5,6 +5,8 @@ import src.utility.Constants;
 import src.render.Window;
 import src.utility.Vec2;
 
+import javax.swing.*;
+
 public class Main extends Window {
     public static void main(String[] args) {
         Window window = new Main();

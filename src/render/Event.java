@@ -14,6 +14,10 @@ public class Event<E> {
     public static int MOUSE_ENTERED = 12;
     public static int MOUSE_EXITED = 13;
 
+    public static int KEY_TYPED = 20;
+    public static int KEY_PRESSED = 21;
+    public static int KEY_RELEASED = 22;
+
     public int type;
     public E event;
 
@@ -24,11 +28,12 @@ public class Event<E> {
     public static String getEventName(int eventType) throws IllegalAccessException {
         for (Field f : Event.class.getFields()) {
             try {
-                int value = (int) f.get(f);
-                if (value == eventType) {
-                    return f.getName();
+                if (f.get(f) instanceof Integer value) {
+                    if (value == eventType) {
+                        return f.getName();
+                    }
                 }
-            } catch (IllegalArgumentException | ClassCastException ignored) {}
+            } catch (IllegalArgumentException ignored) {}
         }
         return "FAILED: couldn't find event";
     }
