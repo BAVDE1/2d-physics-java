@@ -3,19 +3,19 @@ package src.render;
 import java.lang.reflect.Field;
 
 public class Event {
-    public static int CLOSE_PRESSED = 1;  // close button pressed
-    public static int WINDOW_ICONIFIED = 2;  // window minimised
-    public static int WINDOW_DEICONIFIED = 3;  // window de-minimised
-    public static int WINDOW_FOCUSSED = 4;  // window focused
-    public static int WINDOW_BLURRED = 5;  // window blurred
+    public static int CLOSE_PRESSED = 1;
+    public static int WINDOW_MINIMISED = 2;
+    public static int WINDOW_MAXIMISED = 3;
+    public static int WINDOW_FOCUSSED = 4;
+    public static int WINDOW_BLURRED = 5;
 
     public int type;
 
-    public String getEventTypeString() throws IllegalAccessException {
-        return getEventTypeString(type);
+    public String getEventName() throws IllegalAccessException {
+        return getEventName(type);
     }
 
-    public static String getEventTypeString(int eventType) throws IllegalAccessException {
+    public static String getEventName(int eventType) throws IllegalAccessException {
         for (Field f : Event.class.getFields()) {
             try {
                 int value = (int) f.get(f);

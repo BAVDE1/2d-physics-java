@@ -1,23 +1,68 @@
 package src;
 
-import src.render.Event;
+import src.game.Game;
+import src.utility.Constants;
 import src.render.Window;
 
 import java.util.concurrent.TimeUnit;
 
 public class Main extends Window {
-    public static void main(String[] args) throws InterruptedException, IllegalAccessException {
+    public static void main(String[] args) throws InterruptedException {
         Window window = new Main();
-        window.initWindow("some window", 400, 300);
+        Game game = new Game(window);
+
+        window.initWindow(Constants.WINDOW_NAME, Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
+        window.scaleWindow(Constants.RES_MUL);
         window.open();
 
-        while (true) {
-            if (!window.eventQueue.isEmpty()) {
-                for (Event ev : window.popAllEvents()) {
-                    System.out.println(ev.getEventTypeString());
+        Thread preciseTimeStepper = Main.newPreciseTimeStepper(Constants.DT, window, game);
+        Thread timeStepper = Main.newTimeStepper(Constants.DT, window, game);
+        timeStepper.start();
+    }
+
+    public static Thread newTimeStepper(double dt, Window window, Game game) {
+        return new Thread() {
+            long lastFrame = System.nanoTime();
+
+            public void run() {
+                while (window.open) {
+                    long t = System.nanoTime();
+                    double accumulated = (t - lastFrame) / 1_000_000_000.0;
+                    lastFrame = t;
+
+                    try {
+                        game.mainLoop(dt);
+                        Thread.sleep((long) Math.floor(dt * 1000));
+                    } catch (InterruptedException ignored) {}
                 }
             }
-            TimeUnit.SECONDS.sleep(1);
-        }
+        };
+    }
+
+    public static Thread newPreciseTimeStepper(double dt, Window window, Game game) {
+        return new Thread() {
+            final double halfDt = dt * 0.5;
+
+            double accumulator = 0;
+            long lastFrame = System.nanoTime();
+
+            public void run() {
+                while (window.open) {
+                    long t = System.nanoTime();
+                    accumulator += (t - lastFrame) / 1_000_000_000.0;
+                    accumulator = Math.min(1, accumulator);  // min 1 fps (avoid spiral of doom)
+                    lastFrame = t;
+
+                    while (accumulator >= dt) {
+                        accumulator -= dt;
+
+                        try {
+                            game.mainLoop(dt);
+                            Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
+                        } catch (InterruptedException ignore) {}
+                    }
+                }
+            }
+        };
     }
 }
