@@ -4,10 +4,8 @@ import src.game.Game;
 import src.utility.Constants;
 import src.render.Window;
 
-import java.util.concurrent.TimeUnit;
-
 public class Main extends Window {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
         Window window = new Main();
         Game game = new Game(window);
 
@@ -15,18 +13,17 @@ public class Main extends Window {
         window.scaleWindow(Constants.RES_MUL);
         window.open();
 
-        Thread preciseTimeStepper = Main.newPreciseTimeStepper(Constants.DT, window, game);
         Thread timeStepper = Main.newTimeStepper(Constants.DT, window, game);
         timeStepper.start();
     }
 
     public static Thread newTimeStepper(double dt, Window window, Game game) {
         return new Thread() {
-            long lastFrame = System.nanoTime();
+            double lastFrame = System.nanoTime();
 
             public void run() {
                 while (window.open) {
-                    long t = System.nanoTime();
+                    double t = System.nanoTime();
                     double accumulated = (t - lastFrame) / 1_000_000_000.0;
                     lastFrame = t;
 
@@ -44,11 +41,11 @@ public class Main extends Window {
             final double halfDt = dt * 0.5;
 
             double accumulator = 0;
-            long lastFrame = System.nanoTime();
+            double lastFrame = System.nanoTime();
 
             public void run() {
                 while (window.open) {
-                    long t = System.nanoTime();
+                    double t = System.nanoTime();
                     accumulator += (t - lastFrame) / 1_000_000_000.0;
                     accumulator = Math.min(1, accumulator);  // min 1 fps (avoid spiral of doom)
                     lastFrame = t;

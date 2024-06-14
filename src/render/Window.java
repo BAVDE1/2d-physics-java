@@ -1,5 +1,7 @@
 package src.render;
 
+import src.utility.Vec2;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -13,9 +15,8 @@ public class Window {
 
     public LinkedList<Event> eventQueue = new LinkedList<>();
 
-    public int width;
-    public int height;
-    public float scale = 1;
+    public Vec2 size;
+    public double scale = 1;
 
     public void initWindow(String windowName, int width, int height) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -26,13 +27,12 @@ public class Window {
 
     public void initWindow(String windowName, int posX, int posY, int width, int height) {
         if (!initialized) {
-            this.width = width;
-            this.height = height;
+            size = new Vec2(width, height);
 
             frame.setName(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.addWindowListener(newWindowListener());
-            frame.setBounds(posX, posY, this.width, this.height);
+            frame.setBounds(posX, posY, (int) size.x, (int) size.y);
             frame.setResizable(false);
             initialized = true;
         }
@@ -50,20 +50,16 @@ public class Window {
         };
     }
 
-    public void scaleWindow(float scaleMultiplier) {
-        float relativeScale = scaleMultiplier / scale;
-
-        int scaledW = (int) (width * relativeScale);
-        int scaledH = (int) (height * relativeScale);
+    public void scaleWindow(double scaleMultiplier) {
+        Vec2 scaledSize = size.mul(scaleMultiplier / scale);
 
         // retain position
-        int newX = (frame.getX() + width / 2) - scaledW / 2;
-        int newY = ((frame.getY() - 10) + height / 2) - scaledH / 2;
+        Vec2 framePos = new Vec2(frame.getX(), frame.getY());
+        Vec2 newPos = (framePos.add(size.div(2))).sub(scaledSize.div(2));
 
-        frame.setBounds(newX, newY, scaledW, scaledH);
+        frame.setBounds((int) newPos.x, (int) newPos.y, (int) scaledSize.x, (int) scaledSize.y);
         scale = scaleMultiplier;
-        width = scaledW;
-        height = scaledH;
+        size = scaledSize;
     }
 
     public void setIcon(Image image) {
