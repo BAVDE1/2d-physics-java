@@ -5,8 +5,6 @@ import src.utility.Constants;
 import src.render.Window;
 import src.utility.Vec2;
 
-import javax.swing.*;
-
 public class Main extends Window {
     public static void main(String[] args) {
         Window window = new Main();
@@ -16,11 +14,11 @@ public class Main extends Window {
         window.scaleWindow(Constants.RES_MUL);
         window.open();
 
-        Thread timeStepper = Main.newTimeStepper(Constants.DT, window, game);
+        Thread timeStepper = Main.newTicker(Constants.DT, window, game);
         timeStepper.start();
     }
 
-    public static Thread newTimeStepper(double dt, Window window, Game game) {
+    public static Thread newTicker(double dt, Window window, Game game) {
         return new Thread() {
             double lastFrame = System.nanoTime();
 
@@ -39,7 +37,7 @@ public class Main extends Window {
         };
     }
 
-    public static Thread newPreciseTimeStepper(double dt, Window window, Game game) {
+    public static Thread newTimeStepper(double dt, Window window, Game game) {
         return new Thread() {
             final double halfDt = dt * 0.5;
 

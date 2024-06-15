@@ -5,8 +5,6 @@ import src.utility.Vec2;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 
 public class Window {
@@ -35,8 +33,8 @@ public class Window {
             frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
             frame.setResizable(false);
 
-            frame.addMouseListener(Listener.newMouseListener(this));
             frame.addWindowListener(Listener.newWindowListener(this));
+            frame.addMouseListener(Listener.newMouseListener(this));
             frame.addKeyListener(Listener.newKeyListener(this));
 
             initialized = true;
@@ -69,8 +67,13 @@ public class Window {
         return e;
     }
 
-    public void blitSurface(Surface surface) {
+    public void renderSurface(Surface surface) {
+        renderSurface(new Vec2(0, 0), surface);
+    }
 
+    public void renderSurface(Vec2 pos, Surface surface) {
+        // todo: positioning
+        frame.add(surface.getPanel());
     }
 
     public void open() {
@@ -78,13 +81,15 @@ public class Window {
         frame.setVisible(true);
     }
 
-    public void close() {
-        open = false;
-        frame.setVisible(false);
+    public void closeWindowSafe() {
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Unsafe shutdown. Call closeWindowSafe() instead, catch the event and then call shutDown()
+     */
     public void shutDown() {
-        if (open) {close();}
+        open = false;
         System.exit(0);
     }
 }
