@@ -16,7 +16,6 @@ public class Game {
     public void events() {
         if (!window.eventQueue.isEmpty()) {
             for (Event<?> ev : window.popAllEvents()) {
-                System.out.println(ev.event);
 
                 // window events
                 if (ev.event instanceof WindowEvent e) {

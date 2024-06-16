@@ -31,7 +31,9 @@ public class Main extends Window {
                     try {
                         game.mainLoop(dt);
                         Thread.sleep((long) Math.floor(dt * 1000));
-                    } catch (InterruptedException ignored) {}
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException("Program closed while thread was asleep");
+                    }
                 }
             }
         };
@@ -57,7 +59,9 @@ public class Main extends Window {
                         try {
                             game.mainLoop(dt);
                             Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
-                        } catch (InterruptedException ignore) {}
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException("Program closed while thread was asleep");
+                        }
                     }
                 }
             }

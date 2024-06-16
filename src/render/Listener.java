@@ -7,10 +7,7 @@ public class Listener {
         return new WindowListener() {
             public void windowOpened(WindowEvent e) {}
             public void windowClosed(WindowEvent e) {}
-            public void windowClosing(WindowEvent e) {
-                System.out.println("cllosing");
-                w.queueEvent(new Event<WindowEvent>(Event.CLOSE_PRESSED, e));
-            }
+            public void windowClosing(WindowEvent e) {w.queueEvent(new Event<WindowEvent>(Event.CLOSE_PRESSED, e));}
             public void windowIconified(WindowEvent e) {w.queueEvent(new Event<WindowEvent>(Event.WINDOW_MINIMISED, e));}
             public void windowDeiconified(WindowEvent e) {w.queueEvent(new Event<WindowEvent>(Event.WINDOW_MAXIMISED, e));}
             public void windowActivated(WindowEvent e) {w.queueEvent(new Event<WindowEvent>(Event.WINDOW_FOCUSSED, e));}
