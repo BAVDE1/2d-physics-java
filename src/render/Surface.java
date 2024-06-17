@@ -8,18 +8,18 @@ import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
 
 public class Surface extends Graphics {
-    Vec2 size;
+    private final Vec2 size;
 
     boolean hasBackground = false;
-    Color background;
+    Color backgroundCol;
 
     public Surface(Vec2 size) {
         this.size = size;
     }
 
-    public void setBackground(Color colour) {
+    public void setBackgroundCol(Color colour) {
         hasBackground = true;
-        background = colour;
+        backgroundCol = colour;
     }
 
     public void removeBackground() {
@@ -30,7 +30,7 @@ public class Surface extends Graphics {
         JPanel p = new JPanel();
 
         p.setSize((int) size.x, (int) size.y);
-        if (hasBackground) {p.setBackground(background);}
+        if (hasBackground) {p.setBackground(backgroundCol);}
         p.paint(this);
 
         return p;

@@ -68,10 +68,10 @@ public class Window {
     }
 
     public void renderSurface(Surface surface) {
-        renderSurface(new Vec2(0, 0), surface);
+        renderSurface(surface, new Vec2(0, 0));
     }
 
-    public void renderSurface(Vec2 pos, Surface surface) {
+    public void renderSurface(Surface surface, Vec2 pos) {
         // todo: positioning
         frame.add(surface.getPanel());
     }
