@@ -19,8 +19,10 @@ public class Window {
 
     public void initWindow(String windowName, Vec2 size) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+
         Vec2 screenSize = new Vec2(screen.width, screen.height);
         Vec2 pos = screenSize.div(2).sub(size.div(2));
+
         initWindow(windowName, pos, size);
     }
 
@@ -32,11 +34,13 @@ public class Window {
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
             frame.setResizable(false);
+            frame.setLayout(null);
 
             frame.addWindowListener(Listener.newWindowListener(this));
             frame.addMouseListener(Listener.newMouseListener(this));
             frame.addKeyListener(Listener.newKeyListener(this));
 
+            frame.pack();
             initialized = true;
         }
     }
@@ -65,15 +69,6 @@ public class Window {
         LinkedList<Event<?>> e = new LinkedList<>(eventQueue);
         eventQueue.clear();
         return e;
-    }
-
-    public void renderSurface(Surface surface) {
-        renderSurface(surface, new Vec2(0, 0));
-    }
-
-    public void renderSurface(Surface surface, Vec2 pos) {
-        // todo: positioning
-        frame.add(surface.getPanel());
     }
 
     public void open() {

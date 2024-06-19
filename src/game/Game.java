@@ -1,13 +1,17 @@
 package src.game;
 
 import src.render.Event;
+import src.render.Surface;
 import src.render.Window;
+import src.utility.Constants;
+import src.utility.Vec2;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 public class Game {
-    Window window;
+    private final Window window;
 
     public Game(Window window) {
         this.window = window;
@@ -38,7 +42,8 @@ public class Game {
 
     public void update(double dt) {}
 
-    public void render() {}
+    public void render() {
+    }
 
     public void mainLoop(double dt) {
         events();
