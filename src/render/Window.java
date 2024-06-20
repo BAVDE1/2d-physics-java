@@ -1,7 +1,5 @@
 package src.render;
 
-import src.game.Game;
-import src.utility.Constants;
 import src.utility.Vec2;
 
 import javax.swing.*;
@@ -61,17 +59,16 @@ public class Window {
     }
 
     public void addSurface(Surface surface) {
-        if (!surface.hasFrame) {
+        if (!surface.initialised) {
             frame.add(surface);
             surface.init();
-            surface.hasFrame = true;
         }
     }
 
     public void removeSurface(Surface surface) {
-        if (surface.hasFrame) {
+        if (surface.initialised) {
             frame.remove(surface);
-            surface.hasFrame = false;
+            surface.unInit();
         }
     }
 

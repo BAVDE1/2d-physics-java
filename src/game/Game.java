@@ -10,7 +10,6 @@ import src.utility.Vec2;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 
 public class Game {
     public boolean running = false;
@@ -66,7 +65,7 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        s.render();
+        s.fill(Color.RED);
     }
 
     public void mainLoop(double dt) {

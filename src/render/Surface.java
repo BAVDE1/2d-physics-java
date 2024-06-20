@@ -1,13 +1,13 @@
 package src.render;
 
-import src.utility.Constants;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class Surface extends JPanel {
+    public boolean initialised = false;
+
     public Dimension size;
-    public boolean hasFrame = false;
+    private Graphics graphics;
 
     public Surface (int w, int h) {
         size = new Dimension(w, h);
@@ -18,17 +18,14 @@ public class Surface extends JPanel {
         setMaximumSize(size);
         setMinimumSize(size);
         setPreferredSize(size);
+
+        initialised = true;
+        graphics = getGraphics();
     }
 
-    public void render() {
-        if (hasFrame) {
-            Graphics g = getGraphics();
-
-            g.setColor(new Color(Constants.randInt(0, 255)));
-            g.fillRect(0, 0, getWidth(), getHeight());
-
-            g.dispose();
-        }
+    public void unInit() {
+        initialised = false;
+        graphics.dispose();
     }
 
     /**
@@ -36,4 +33,11 @@ public class Surface extends JPanel {
      * Graphics methods
      * ================
      */
+
+    public void fill(Color color) {
+        if (initialised) {
+            graphics.setColor(color);
+            graphics.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
 }

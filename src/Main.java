@@ -1,13 +1,6 @@
 package src;
 
 import src.game.Game;
-import src.render.Surface;
-import src.utility.Constants;
-import src.render.Window;
-import src.utility.Vec2;
-
-import java.awt.*;
-import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,6 +8,11 @@ public class Main {
         game.start();
     }
 
+    /**
+     * Slow, inaccurate ticker, but fairly light on cpu.
+     * Runs program (negligibly) slower.
+     * Kind of a hybrid time stepper as it still returns a static dt haha.
+     */
     public static Thread newTicker(double dt, Game game) {
         return new Thread() {
             double lastFrame = System.nanoTime();
@@ -22,7 +20,7 @@ public class Main {
             public void run() {
                 while (game.running) {
                     double t = System.nanoTime();
-                    double accumulated = (t - lastFrame) / 1_000_000_000.0;
+                    double accumulated = (t - lastFrame) / 1_000_000_000.0;  // kept for debugging purposes
                     lastFrame = t;
 
                     try {
@@ -36,6 +34,10 @@ public class Main {
         };
     }
 
+    /**
+     * Proper, far more accurate time stepper.
+     * Heavier on the cpu for second half of time between frames (as thread sleeps for half of dt once stepped).
+     */
     public static Thread newTimeStepper(double dt, Game game) {
         return new Thread() {
             final double halfDt = dt * 0.5;
@@ -47,7 +49,7 @@ public class Main {
                 while (game.running) {
                     double t = System.nanoTime();
                     accumulator += (t - lastFrame) / 1_000_000_000.0;
-                    accumulator = Math.min(1, accumulator);  // min 1 fps (avoid spiral of doom)
+                    accumulator = Math.min(1, accumulator);  // min of 1 fps (avoid spiral of doom)
                     lastFrame = t;
 
                     while (accumulator >= dt) {
