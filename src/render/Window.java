@@ -1,5 +1,7 @@
 package src.render;
 
+import src.game.Game;
+import src.utility.Constants;
 import src.utility.Vec2;
 
 import javax.swing.*;
@@ -10,29 +12,30 @@ import java.util.LinkedList;
 public class Window {
     public boolean initialized = false;
     public boolean open = false;
-    public JFrame frame = new JFrame();
+    public final JFrame frame = new JFrame();
 
     public LinkedList<Event<?>> eventQueue = new LinkedList<>();
 
-    public Vec2 size;
+    public Dimension size;
     public double scale = 1;
 
-    public void initWindow(String windowName, Vec2 size) {
+    public void initWindow(String windowName, Dimension size, Game game) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         Vec2 screenSize = new Vec2(screen.width, screen.height);
-        Vec2 pos = screenSize.div(2).sub(size.div(2));
+        Vec2 pos = screenSize.div(2).sub(Vec2.fromDim(size).div(2));
 
-        initWindow(windowName, pos, size);
+        initWindow(windowName, pos, size, game);
     }
 
-    public void initWindow(String windowName, Vec2 pos, Vec2 size) {
+    public void initWindow(String windowName, Vec2 pos, Dimension size, Game game) {
         if (!initialized) {
             this.size = size;
 
+            frame.add(game);
             frame.setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setBounds((int) pos.x, (int) pos.y, (int) size.x, (int) size.y);
+            frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             frame.setResizable(false);
             frame.setLayout(null);
 
@@ -46,15 +49,21 @@ public class Window {
     }
 
     public void scaleWindow(double scaleMultiplier) {
-        Vec2 scaledSize = size.mul(scaleMultiplier / scale);
+        Vec2 s = Vec2.fromDim(size);
+        Vec2 scaledSize = s.mul(scaleMultiplier / scale);
 
         // retain position
         Vec2 framePos = new Vec2(frame.getX(), frame.getY());
-        Vec2 newPos = framePos.add(size.div(2)).sub(scaledSize.div(2));
+        Vec2 newPos = framePos.add(s.div(2)).sub(scaledSize.div(2));
 
         frame.setBounds((int) newPos.x, (int) newPos.y, (int) scaledSize.x, (int) scaledSize.y);
         scale = scaleMultiplier;
-        size = scaledSize;
+        size = scaledSize.toDim();
+    }
+
+    public void addSurface(Surface surface) {
+        frame.add(surface);
+//        surface.createBufferStrategy(Constants.BUFFER_STRAT);
     }
 
     public void setIcon(Image image) {

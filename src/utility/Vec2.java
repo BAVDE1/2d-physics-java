@@ -1,5 +1,7 @@
 package src.utility;
 
+import java.awt.*;
+
 public class Vec2 {
     public double x;
     public double y;
@@ -9,6 +11,17 @@ public class Vec2 {
         this.y = y;
     }
 
+    public Vec2(Vec2 vec2) {
+        this.x = vec2.x;
+        this.y = vec2.y;
+    }
+
+    public Vec2(Dimension dim) {
+        this.x = dim.width;
+        this.y = dim.height;
+    }
+
+
     public void set(double x, double y) {
         this.x = x;
         this.y = y;
@@ -16,6 +29,14 @@ public class Vec2 {
     
     public Vec2 getClone() {
         return new Vec2(x, y);
+    }
+
+    public static Vec2 fromDim(Dimension dim) {
+        return new Vec2(dim);
+    }
+
+    public Dimension toDim() {
+        return new Dimension((int) x, (int) y);
     }
 
     /**

@@ -9,25 +9,18 @@ import src.utility.Vec2;
 import java.awt.*;
 import java.util.concurrent.TimeUnit;
 
-public class Main extends Window {
+public class Main {
     public static void main(String[] args) {
-        Window window = new Main();
-        Game game = new Game(window);
-
-        window.initWindow(Constants.WINDOW_NAME, new Vec2(Constants.BASE_WIDTH, Constants.BASE_HEIGHT));
-        window.scaleWindow(Constants.RES_MUL);
-        window.open();
-
-        Thread timeStepper = Main.newTicker(Constants.DT, window, game);
-        timeStepper.start();
+        Game game = new Game();
+        game.start();
     }
 
-    public static Thread newTicker(double dt, Window window, Game game) {
+    public static Thread newTicker(double dt, Game game) {
         return new Thread() {
             double lastFrame = System.nanoTime();
 
             public void run() {
-                while (window.open) {
+                while (game.running) {
                     double t = System.nanoTime();
                     double accumulated = (t - lastFrame) / 1_000_000_000.0;
                     lastFrame = t;
@@ -43,7 +36,7 @@ public class Main extends Window {
         };
     }
 
-    public static Thread newTimeStepper(double dt, Window window, Game game) {
+    public static Thread newTimeStepper(double dt, Game game) {
         return new Thread() {
             final double halfDt = dt * 0.5;
 
@@ -51,7 +44,7 @@ public class Main extends Window {
             double lastFrame = System.nanoTime();
 
             public void run() {
-                while (window.open) {
+                while (game.running) {
                     double t = System.nanoTime();
                     accumulator += (t - lastFrame) / 1_000_000_000.0;
                     accumulator = Math.min(1, accumulator);  // min 1 fps (avoid spiral of doom)
