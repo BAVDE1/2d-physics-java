@@ -52,6 +52,12 @@ public class Game {
                             window.closeWindowSafe();
                         }
                     }
+
+                    if (e.getKeyCode() == KeyEvent.VK_E) {
+                        window.removeSurface(s);
+                    } else if (e.getKeyCode() == KeyEvent.VK_R) {
+                        window.addSurface(s);
+                    }
                 }
             }
         }

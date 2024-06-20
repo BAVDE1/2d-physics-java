@@ -12,7 +12,7 @@ import java.util.LinkedList;
 public class Window {
     public boolean initialized = false;
     public boolean open = false;
-    public final JFrame frame = new JFrame();
+    private final JFrame frame = new JFrame();
 
     public LinkedList<Event<?>> eventQueue = new LinkedList<>();
 
@@ -61,8 +61,18 @@ public class Window {
     }
 
     public void addSurface(Surface surface) {
-        frame.add(surface);
-        surface.init();
+        if (!surface.hasFrame) {
+            frame.add(surface);
+            surface.init();
+            surface.hasFrame = true;
+        }
+    }
+
+    public void removeSurface(Surface surface) {
+        if (surface.hasFrame) {
+            frame.remove(surface);
+            surface.hasFrame = false;
+        }
     }
 
     public void setIcon(Image image) {
