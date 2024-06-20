@@ -19,20 +19,19 @@ public class Window {
     public Dimension size;
     public double scale = 1;
 
-    public void initWindow(String windowName, Dimension size, Game game) {
+    public void initWindow(String windowName, Dimension size) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         Vec2 screenSize = new Vec2(screen.width, screen.height);
         Vec2 pos = screenSize.div(2).sub(Vec2.fromDim(size).div(2));
 
-        initWindow(windowName, pos, size, game);
+        initWindow(windowName, pos, size);
     }
 
-    public void initWindow(String windowName, Vec2 pos, Dimension size, Game game) {
+    public void initWindow(String windowName, Vec2 pos, Dimension size) {
         if (!initialized) {
             this.size = size;
 
-            frame.add(game);
             frame.setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
@@ -63,7 +62,7 @@ public class Window {
 
     public void addSurface(Surface surface) {
         frame.add(surface);
-//        surface.createBufferStrategy(Constants.BUFFER_STRAT);
+        surface.init();
     }
 
     public void setIcon(Image image) {

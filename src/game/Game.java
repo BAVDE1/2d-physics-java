@@ -12,20 +12,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 
-public class Game extends Canvas {
+public class Game {
     public boolean running = false;
     private final Window window = new Window();
 
+    Surface s = new Surface(Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
+
     public Game() {
         Dimension size = new Dimension(Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
-        window.initWindow(Constants.WINDOW_NAME, size, this);
+        window.initWindow(Constants.WINDOW_NAME, size);
         window.scaleWindow(Constants.RES_MUL);
 
-        createBufferStrategy(2);
-        setSize(size);
-        setPreferredSize(size);
-        setMaximumSize(size);
-        setMinimumSize(size);
+        window.addSurface(s);
     }
 
     public void start() {
@@ -62,14 +60,7 @@ public class Game extends Canvas {
     private void update(double dt) {}
 
     private void render() {
-        BufferStrategy bs = getBufferStrategy();
-        Graphics g = bs.getDrawGraphics();
-
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        g.dispose();
-        bs.show();
+        s.render();
     }
 
     public void mainLoop(double dt) {

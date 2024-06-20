@@ -1,35 +1,34 @@
 package src.render;
 
+import src.utility.Constants;
 import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
+import java.util.random.RandomGenerator;
 
 public class Surface extends Canvas {
-    public Surface (double w, double h) {
-        new Surface(new Vec2(w, h));
+    public Dimension size;
+
+    public Surface (int w, int h) {
+        size = new Dimension(w, h);
     }
 
-    public Surface(Vec2 size) {
-        Dimension d = new Dimension((int) size.x, (int) size.y);
-
-        setBounds(0, 0, d.width, d.height);
-        setMaximumSize(d);
-        setMinimumSize(d);
-        setPreferredSize(d);
+    public void init() {
+        createBufferStrategy(2);
+        setBounds(0, 0, size.width, size.height);
+        setMaximumSize(size);
+        setMinimumSize(size);
+        setPreferredSize(size);
     }
 
     public void render() {
         BufferStrategy bs = getBufferStrategy();
-        if (bs == null) {
-            createBufferStrategy(2);
-            return;
-        }
-
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.RED);
+        g.setColor(new Color(Constants.randInt(0, 255)));
         g.fillRect(0, 0, getWidth(), getHeight());
 
         g.dispose();
