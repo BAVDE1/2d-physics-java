@@ -90,9 +90,9 @@ public class Window {
     }
 
     public LinkedList<Event<?>> popAllEvents() {
-        LinkedList<Event<?>> e = new LinkedList<>(eventQueue);
+        LinkedList<Event<?>> list = new LinkedList<>(eventQueue);
         eventQueue.clear();
-        return e;
+        return list;
     }
 
     public void open() {
@@ -110,5 +110,10 @@ public class Window {
     public void shutDown() {
         open = false;
         System.exit(0);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Window[size=%s]", size);
     }
 }

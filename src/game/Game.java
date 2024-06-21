@@ -1,6 +1,7 @@
 package src.game;
 
 import src.Main;
+import src.render.CanvasSurface;
 import src.render.Event;
 import src.render.Surface;
 import src.render.Window;
@@ -18,12 +19,17 @@ public class Game {
 
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
-    BufferedImage b = new BufferedImage(Constants.BASE_WIDTH, Constants.BASE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+    CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE, true);
 
     public Game() {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE);
 
         window.addSurface(finalSurface);
+
+
+        System.out.println(window);
+        System.out.println(finalSurface);
+        System.out.println(canvasSurface);
     }
 
     public void start() {
@@ -69,12 +75,9 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        Graphics g = b.getGraphics();
-        g.setColor(new Color(Constants.randInt(0, 255)));
-        g.fillRect(0, 0, b.getWidth(), b.getHeight());
-        g.setColor(Color.RED);
-        g.drawLine(0, 0, b.getWidth(), b.getHeight());
-        finalSurface.blit(b);
+        canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
+        canvasSurface.graphics.line(Color.RED, new Vec2(0, 0), Vec2.fromDim(canvasSurface.size));
+        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
     }
 
     public void mainLoop(double dt) {
