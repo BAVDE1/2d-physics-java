@@ -10,27 +10,30 @@ import src.utility.Vec2;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
 public class Game {
     public boolean running = false;
     private final Window window = new Window();
 
-    Surface s = new Surface(Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
+    Surface finalSurface = new Surface(Constants.SCALED_SIZE);
+
+    BufferedImage b = new BufferedImage(Constants.BASE_WIDTH, Constants.BASE_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
     public Game() {
-        Dimension size = new Dimension(Constants.BASE_WIDTH, Constants.BASE_HEIGHT);
-        window.initWindow(Constants.WINDOW_NAME, size);
-        window.scaleWindow(Constants.RES_MUL);
+        window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE);
 
-        window.addSurface(s);
+        window.addSurface(finalSurface);
     }
 
     public void start() {
-        running = true;
-        window.open();
+        if (!running) {
+            running = true;
+            window.open();
 
-        Thread timeStepper = Main.newTicker(Constants.DT, this);
-        timeStepper.start();
+            Thread timeStepper = Main.newTicker(Constants.DT, this);
+            timeStepper.start();
+        }
     }
 
     private void events() {
@@ -40,6 +43,7 @@ public class Game {
                 // window events
                 if (ev.event instanceof WindowEvent e) {
                     if (ev.type == Event.CLOSE_PRESSED) {
+                        running = false;
                         window.shutDown();
                     }
                 }
@@ -53,9 +57,9 @@ public class Game {
                     }
 
                     if (e.getKeyCode() == KeyEvent.VK_E) {
-                        window.removeSurface(s);
+                        window.removeSurface(finalSurface);
                     } else if (e.getKeyCode() == KeyEvent.VK_R) {
-                        window.addSurface(s);
+                        window.addSurface(finalSurface);
                     }
                 }
             }
@@ -65,7 +69,12 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        s.fill(Color.RED);
+        Graphics g = b.getGraphics();
+        g.setColor(new Color(Constants.randInt(0, 255)));
+        g.fillRect(0, 0, b.getWidth(), b.getHeight());
+        g.setColor(Color.RED);
+        g.drawLine(0, 0, b.getWidth(), b.getHeight());
+        finalSurface.blit(b);
     }
 
     public void mainLoop(double dt) {

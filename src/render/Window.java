@@ -8,7 +8,7 @@ import java.awt.event.*;
 import java.util.LinkedList;
 
 public class Window {
-    public boolean initialized = false;
+    public boolean initialised = false;
     public boolean open = false;
     private final JFrame frame = new JFrame();
 
@@ -27,40 +27,49 @@ public class Window {
     }
 
     public void initWindow(String windowName, Vec2 pos, Dimension size) {
-        if (!initialized) {
+        if (!initialised) {
             this.size = size;
 
             frame.setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             frame.setResizable(false);
             frame.setLayout(null);
+
+            frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
+            frame.setPreferredSize(size);
+            frame.setMaximumSize(size);
+            frame.setMinimumSize(size);
 
             frame.addWindowListener(Listener.newWindowListener(this));
             frame.addMouseListener(Listener.newMouseListener(this));
             frame.addKeyListener(Listener.newKeyListener(this));
 
             frame.pack();
-            initialized = true;
+            initialised = true;
         }
     }
 
     public void scaleWindow(double scaleMultiplier) {
         Vec2 s = Vec2.fromDim(size);
-        Vec2 scaledSize = s.mul(scaleMultiplier / scale);
+        Dimension scaledSize = s.mul(scaleMultiplier / scale).toDim();
 
         // retain position
         Vec2 framePos = new Vec2(frame.getX(), frame.getY());
-        Vec2 newPos = framePos.add(s.div(2)).sub(scaledSize.div(2));
+        Vec2 newPos = framePos.add(s.div(2)).sub(Vec2.fromDim(scaledSize).div(2));
 
-        frame.setBounds((int) newPos.x, (int) newPos.y, (int) scaledSize.x, (int) scaledSize.y);
+        frame.setBounds((int) newPos.x, (int) newPos.y, scaledSize.width, scaledSize.height);
+        frame.setPreferredSize(scaledSize);
+        frame.setMaximumSize(scaledSize);
+        frame.setMinimumSize(scaledSize);
+        frame.pack();
+
         scale = scaleMultiplier;
-        size = scaledSize.toDim();
+        size = scaledSize;
     }
 
     public void addSurface(Surface surface) {
         if (!surface.initialised) {
-            frame.add(surface);
+            frame.add(surface, BorderLayout.CENTER);
             surface.init();
         }
     }
