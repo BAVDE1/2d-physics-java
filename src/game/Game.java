@@ -17,19 +17,12 @@ public class Game {
     public boolean running = false;
     private final Window window = new Window();
 
-    Surface finalSurface = new Surface(Constants.SCALED_SIZE);
-
     CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE, true);
+    Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
     public Game() {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE);
-
         window.addSurface(finalSurface);
-
-
-        System.out.println(window);
-        System.out.println(finalSurface);
-        System.out.println(canvasSurface);
     }
 
     public void start() {

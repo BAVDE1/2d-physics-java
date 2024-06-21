@@ -25,6 +25,38 @@ public class SurfaceGraphics {
         graphics.drawLine((int) from.x, (int) from.y, (int) to.x, (int) to.y);
     }
 
+    public void fillRect(Color col, Vec2 pos, Dimension size) {
+        graphics.setColor(col);
+        graphics.fillRect((int) pos.x, (int) pos.y, size.width, size.height);
+    }
+
+    public void drawRect(Color col, Vec2 pos, Dimension size) {
+        graphics.setColor(col);
+        graphics.drawRect((int) pos.x, (int) pos.y, size.width, size.height);
+    }
+
+    public void fillCircle(Color col, Vec2 pos, int radius) {
+        graphics.setColor(col);
+        pos = pos.sub(radius / 2.0);
+        graphics.fillOval((int) pos.x, (int) pos.y, radius, radius);
+    }
+
+    public void drawCircle(Color col, Vec2 pos, int radius) {
+        graphics.setColor(col);
+        pos = pos.sub(radius / 2.0);
+        graphics.drawOval((int) pos.x, (int) pos.y, radius, radius);
+    }
+
+    public void fillOval(Color col, Vec2 pos, Dimension size) {
+        graphics.setColor(col);
+        graphics.fillOval((int) pos.x, (int) pos.y, size.width, size.height);
+    }
+
+    public void drawOval(Color col, Vec2 pos, Dimension size) {
+        graphics.setColor(col);
+        graphics.drawOval((int) pos.x, (int) pos.y, size.width, size.height);
+    }
+
     public void drawImage(BufferedImage img, int x, int y, ImageObserver o) {
         graphics.drawImage(img, x, y, o);
     }
