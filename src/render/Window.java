@@ -32,13 +32,11 @@ public class Window {
 
             frame.setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setResizable(false);
+            frame.setResizable(true);
             frame.setLayout(null);
 
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             frame.setPreferredSize(size);
-            frame.setMaximumSize(size);
-            frame.setMinimumSize(size);
 
             frame.addWindowListener(Listener.newWindowListener(this));
             frame.addMouseListener(Listener.newMouseListener(this));
@@ -59,17 +57,19 @@ public class Window {
 
         frame.setBounds((int) newPos.x, (int) newPos.y, scaledSize.width, scaledSize.height);
         frame.setPreferredSize(scaledSize);
-        frame.setMaximumSize(scaledSize);
-        frame.setMinimumSize(scaledSize);
         frame.pack();
 
         scale = scaleMultiplier;
         size = scaledSize;
     }
 
+    public JFrame getRawFrame() {
+        return frame;
+    }
+
     public void addSurface(Surface surface) {
         if (!surface.initialised) {
-            frame.add(surface, BorderLayout.CENTER);
+            frame.getContentPane().add(surface, BorderLayout.CENTER);
             surface.init();
         }
     }

@@ -11,6 +11,10 @@ public class SurfaceGraphics {
     private final Dimension size;
 
     public SurfaceGraphics(Graphics graphics, Dimension size) {
+        if (graphics == null) {
+            throw new NullPointerException("Graphics param passed to SurfaceGraphics() is null. Has the Surface been added to a Window?");
+        }
+
         this.graphics = graphics;
         this.size = size;
     }
@@ -63,6 +67,10 @@ public class SurfaceGraphics {
 
     public void drawImage(Image img, int x, int y, ImageObserver o) {
         graphics.drawImage(img, x, y, o);
+    }
+
+    public Graphics getRawGraphics() {
+        return graphics;
     }
 
     public void dispose() {

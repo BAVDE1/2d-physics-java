@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 
 public class Game {
     public boolean running = false;
@@ -23,6 +24,9 @@ public class Game {
     public Game() {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE);
         window.addSurface(finalSurface);
+
+        canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
+        canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
     }
 
     public void start() {
@@ -53,12 +57,12 @@ public class Game {
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
                             window.closeWindowSafe();
                         }
-                    }
 
-                    if (e.getKeyCode() == KeyEvent.VK_E) {
-                        window.removeSurface(finalSurface);
-                    } else if (e.getKeyCode() == KeyEvent.VK_R) {
-                        window.addSurface(finalSurface);
+                        if (e.getKeyCode() == KeyEvent.VK_E) {
+                            window.removeSurface(finalSurface);
+                        } else if (e.getKeyCode() == KeyEvent.VK_R) {
+                            window.addSurface(finalSurface);
+                        }
                     }
                 }
             }
@@ -68,9 +72,7 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
-        canvasSurface.graphics.line(Color.RED, new Vec2(0, 0), Vec2.fromDim(canvasSurface.size));
-        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
+        finalSurface.blit(canvasSurface);
     }
 
     public void mainLoop(double dt) {

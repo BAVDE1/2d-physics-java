@@ -21,6 +21,11 @@ public class Vec2 {
         this.y = dim.height;
     }
 
+    public Vec2() {
+        x = 0;
+        y = 0;
+    }
+
     public void set(double x, double y) {
         this.x = x;
         this.y = y;

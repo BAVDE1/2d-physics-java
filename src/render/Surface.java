@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class Surface extends JPanel {
     public boolean initialised = false;
 
-    public Vec2 pos = new Vec2(0, 0);
+    public Vec2 pos = new Vec2();
     public Dimension size;
     public SurfaceGraphics graphics;
 
@@ -30,8 +30,6 @@ public class Surface extends JPanel {
         setLayout(new BorderLayout());
 
         setBounds((int) pos.x,  (int) pos.y, size.width, size.height);
-        setMaximumSize(size);
-        setMinimumSize(size);
         setPreferredSize(size);
 
         initialised = true;
@@ -43,13 +41,19 @@ public class Surface extends JPanel {
         graphics.dispose();
     }
 
-    public void blit(BufferedImage bImg) {
-        graphics.drawImage(bImg, 0, 0, this);
+    public void blit(CanvasSurface canvas) {
+        graphics.drawImage(canvas, 0, 0, this);
     }
 
-    public void blitScaled(BufferedImage bImg, int scale) {
-        Image ing = bImg.getScaledInstance(bImg.getWidth() * scale, bImg.getHeight() * scale, BufferedImage.SCALE_DEFAULT);
-        graphics.drawImage(ing, 0, 0, this);
+    public void blitScaled(CanvasSurface canvas, int scale) {
+        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.width * scale, BufferedImage.SCALE_DEFAULT);
+        graphics.drawImage(img, 0, 0, this);
+    }
+
+    public CanvasSurface toCanvasSurface() {
+        CanvasSurface c = new CanvasSurface(size);
+        paintAll(c.graphics.getRawGraphics());
+        return c;
     }
 
     @Override
