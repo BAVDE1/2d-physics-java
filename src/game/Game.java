@@ -11,21 +11,16 @@ import src.utility.Vec2;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.util.Arrays;
 
 public class Game {
     public boolean running = false;
     private final Window window = new Window();
 
-    CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE, true);
+    CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE);
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
     public Game() {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
-
-        canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
-        canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
     }
 
     public void start() {
@@ -35,6 +30,10 @@ public class Game {
 
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
+
+            canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
+            canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
+
         }
     }
 
@@ -65,7 +64,7 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        finalSurface.blit(canvasSurface);
+        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
     }
 
     public void mainLoop(double dt) {

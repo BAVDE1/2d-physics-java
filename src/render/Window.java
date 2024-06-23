@@ -31,13 +31,12 @@ public class Window {
             this.size = size;
 
             frame.setTitle(windowName);
-            frame.setResizable(false);
+            frame.setResizable(true);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.getContentPane().setLayout(new GridLayout(1, 1));
 
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             addFinalSurface(finalSurface);
-            System.out.println(frame);
 
             frame.addWindowListener(Listener.newWindowListener(this));
             frame.addMouseListener(Listener.newMouseListener(this));
@@ -67,9 +66,18 @@ public class Window {
     }
 
     private void addFinalSurface(Surface finalSurface) {
-        frame.pack();
-        addSurface(finalSurface);
-        frame.pack();
+        if (!initialised) {
+            addSurface(finalSurface, true);
+            frame.pack();
+            finalSurface.init();  // init after packing so surface graphics are current
+        }
+    }
+
+    public void addSurface(Surface surface, boolean noInit) {
+        if (!surface.initialised) {
+            frame.getContentPane().add(surface, BorderLayout.CENTER);
+            if (!noInit) {surface.init();}
+        }
     }
 
     public void addSurface(Surface surface) {

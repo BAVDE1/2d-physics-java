@@ -14,13 +14,14 @@ public class CanvasSurface extends BufferedImage {
     public CanvasSurface(Dimension size) {
         super(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         this.size = size;
+        init();
     }
 
-    public CanvasSurface(Dimension size, boolean autoInit) {
+    public CanvasSurface(Dimension size, boolean noInit) {
         super(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         this.size = size;
 
-        if (autoInit) {init();}
+        if (!noInit) {init();}
     }
 
     public void init() {

@@ -39,27 +39,35 @@ public class Surface extends JPanel {
         graphics.dispose();
     }
 
-    public void blit(CanvasSurface canvas) {
-        graphics.drawImage(canvas, 0, 0, this);
-    }
-
-    public void blitScaled(CanvasSurface canvas, int scale) {
-        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.width * scale, BufferedImage.SCALE_DEFAULT);
-        graphics.drawImage(img, 0, 0, this);
-    }
-
-    public CanvasSurface toCanvasSurface() {
-        CanvasSurface c = new CanvasSurface(size);
-        paintAll(c.graphics.getRawGraphics());
-        return c;
-    }
-
     @Override
     public Dimension getPreferredSize() {
         if (super.isPreferredSizeSet()) {
             return super.getPreferredSize();
         }
         return size;
+    }
+
+    public void blit(Image canvas) {
+        blit(canvas, new Vec2());
+    }
+
+    public void blit(Image canvas, Vec2 pos) {
+        graphics.drawImage(canvas, (int) pos.x, (int) pos.y, this);
+    }
+
+    public void blitScaled(CanvasSurface canvas, int scale) {
+        blitScaled(canvas, scale, new Vec2());
+    }
+
+    public void blitScaled(CanvasSurface canvas, int scale, Vec2 pos) {
+        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.width * scale, BufferedImage.SCALE_DEFAULT);
+        blit(img, pos);
+    }
+
+    public CanvasSurface toCanvasSurface() {
+        CanvasSurface c = new CanvasSurface(size);
+        paintAll(c.graphics.getRawGraphics());
+        return c;
     }
 
     public String toString() {
