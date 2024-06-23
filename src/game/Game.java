@@ -22,8 +22,7 @@ public class Game {
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
     public Game() {
-        window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE);
-        window.addSurface(finalSurface);
+        window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
 
         canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
         canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
@@ -56,12 +55,6 @@ public class Game {
                     if (ev.type == Event.KEY_PRESSED) {
                         if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
                             window.closeWindowSafe();
-                        }
-
-                        if (e.getKeyCode() == KeyEvent.VK_E) {
-                            window.removeSurface(finalSurface);
-                        } else if (e.getKeyCode() == KeyEvent.VK_R) {
-                            window.addSurface(finalSurface);
                         }
                     }
                 }

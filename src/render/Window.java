@@ -17,32 +17,32 @@ public class Window {
     public Dimension size;
     public double scale = 1;
 
-    public void initWindow(String windowName, Dimension size) {
+    public void initWindow(String windowName, Dimension size, Surface finalSurface) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         Vec2 screenSize = new Vec2(screen.width, screen.height);
         Vec2 pos = screenSize.div(2).sub(Vec2.fromDim(size).div(2));
 
-        initWindow(windowName, pos, size);
+        initWindow(windowName, pos, size, finalSurface);
     }
 
-    public void initWindow(String windowName, Vec2 pos, Dimension size) {
+    public void initWindow(String windowName, Vec2 pos, Dimension size, Surface finalSurface) {
         if (!initialised) {
             this.size = size;
 
             frame.setTitle(windowName);
+            frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            frame.setResizable(true);
-            frame.setLayout(null);
+            frame.getContentPane().setLayout(new GridLayout(1, 1));
 
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
-            frame.setPreferredSize(size);
+            addFinalSurface(finalSurface);
+            System.out.println(frame);
 
             frame.addWindowListener(Listener.newWindowListener(this));
             frame.addMouseListener(Listener.newMouseListener(this));
             frame.addKeyListener(Listener.newKeyListener(this));
 
-            frame.pack();
             initialised = true;
         }
     }
@@ -56,7 +56,6 @@ public class Window {
         Vec2 newPos = framePos.add(s.div(2)).sub(Vec2.fromDim(scaledSize).div(2));
 
         frame.setBounds((int) newPos.x, (int) newPos.y, scaledSize.width, scaledSize.height);
-        frame.setPreferredSize(scaledSize);
         frame.pack();
 
         scale = scaleMultiplier;
@@ -65,6 +64,12 @@ public class Window {
 
     public JFrame getRawFrame() {
         return frame;
+    }
+
+    private void addFinalSurface(Surface finalSurface) {
+        frame.pack();
+        addSurface(finalSurface);
+        frame.pack();
     }
 
     public void addSurface(Surface surface) {

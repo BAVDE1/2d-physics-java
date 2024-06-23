@@ -14,7 +14,7 @@ public class Surface extends JPanel {
     public SurfaceGraphics graphics;
 
     public Surface(int width, int height) {
-        size = new Dimension(width, height);
+        this.size = new Dimension(width, height);
     }
 
     public Surface(Dimension size) {
@@ -28,9 +28,7 @@ public class Surface extends JPanel {
 
     public void init() {
         setLayout(new BorderLayout());
-
         setBounds((int) pos.x,  (int) pos.y, size.width, size.height);
-        setPreferredSize(size);
 
         initialised = true;
         graphics = new SurfaceGraphics(getGraphics(), size);
@@ -57,6 +55,13 @@ public class Surface extends JPanel {
     }
 
     @Override
+    public Dimension getPreferredSize() {
+        if (super.isPreferredSizeSet()) {
+            return super.getPreferredSize();
+        }
+        return size;
+    }
+
     public String toString() {
         return String.format("Surface[pos=%s, size=%s, initialised=%s]", pos, size, initialised);
     }
