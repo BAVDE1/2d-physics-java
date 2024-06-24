@@ -34,7 +34,6 @@ public class Game {
 
             canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
             canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
-
         }
     }
 

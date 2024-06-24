@@ -60,7 +60,7 @@ public class Surface extends JPanel {
     }
 
     public void blitScaled(CanvasSurface canvas, int scale, Vec2 pos) {
-        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.width * scale, BufferedImage.SCALE_DEFAULT);
+        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.height * scale, BufferedImage.SCALE_DEFAULT);
         blit(img, pos);
     }
 
