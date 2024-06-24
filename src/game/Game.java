@@ -10,6 +10,7 @@ import src.utility.Vec2;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
 public class Game {
@@ -37,25 +38,33 @@ public class Game {
         }
     }
 
+    private void windowEvent(int type, WindowEvent we) {
+        if (type == Event.CLOSE_PRESSED) {
+            running = false;
+            window.shutDown();
+        }
+    }
+
+    private void mouseEvent(int type, MouseEvent me) {
+
+    }
+
+    private void keyEvent(int type, KeyEvent ke) {
+        if (type == Event.KEY_PRESSED) {
+            if (ke.getKeyChar() == KeyEvent.VK_ESCAPE) {
+                window.closeWindowSafe();
+            }
+        }
+    }
+
     private void events() {
         if (!window.eventQueue.isEmpty()) {
-            for (Event<?> ev : window.popAllEvents()) {
-
-                // window events
-                if (ev.event instanceof WindowEvent e) {
-                    if (ev.type == Event.CLOSE_PRESSED) {
-                        running = false;
-                        window.shutDown();
-                    }
-                }
-
-                // key events
-                if (ev.event instanceof KeyEvent e) {
-                    if (ev.type == Event.KEY_PRESSED) {
-                        if (e.getKeyChar() == KeyEvent.VK_ESCAPE) {
-                            window.closeWindowSafe();
-                        }
-                    }
+            for (Event<?> event : window.popAllEvents()) {
+                switch (event.event) {
+                    case WindowEvent e: windowEvent(event.type, e); break;
+                    case MouseEvent e: mouseEvent(event.type, e);break;
+                    case KeyEvent e: keyEvent(event.type, e);break;
+                    default: throw new ClassFormatError(String.format("'%s' case not handled. add it to events switch.", event.event));
                 }
             }
         }
