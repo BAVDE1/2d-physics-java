@@ -31,16 +31,13 @@ public class Window {
             this.size = size;
 
             frame.setTitle(windowName);
-            frame.setResizable(true);
+            frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.getContentPane().setLayout(new GridLayout(1, 1));
-
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
-            addFinalSurface(finalSurface);
 
-            frame.addWindowListener(Listener.newWindowListener(this));
-            frame.addMouseListener(Listener.newMouseListener(this));
-            frame.addKeyListener(Listener.newKeyListener(this));
+            addFinalSurface(finalSurface);
+            Listener.addWindowListeners(this);
 
             initialised = true;
         }

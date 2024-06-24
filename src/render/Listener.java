@@ -1,8 +1,17 @@
 package src.render;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 public class Listener {
+    public static void addWindowListeners(Window window) {
+        JFrame frame = window.getRawFrame();
+        frame.addWindowListener(Listener.newWindowListener(window));
+        frame.addMouseListener(Listener.newMouseListener(window));
+        frame.addMouseWheelListener(Listener.newMouseWheelListener(window));
+        frame.addKeyListener(Listener.newKeyListener(window));
+    }
+
     public static WindowListener newWindowListener(Window w) {
         return new WindowListener() {
             public void windowOpened(WindowEvent e) {}
@@ -22,6 +31,12 @@ public class Listener {
             public void mouseReleased(MouseEvent e) {w.queueEvent(new Event<MouseEvent>(Event.MOUSE_RELEASED, e));}
             public void mouseEntered(MouseEvent e) {w.queueEvent(new Event<MouseEvent>(Event.MOUSE_ENTERED, e));}
             public void mouseExited(MouseEvent e) {w.queueEvent(new Event<MouseEvent>(Event.MOUSE_EXITED, e));}
+        };
+    }
+
+    public static MouseWheelListener newMouseWheelListener(Window w) {
+        return new MouseWheelListener() {
+            public void mouseWheelMoved(MouseWheelEvent e) {w.queueEvent(new Event<MouseWheelEvent>(Event.MOUSE_WHEEL_SCROLLED, e));}
         };
     }
 

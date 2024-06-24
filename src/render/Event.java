@@ -13,6 +13,7 @@ public class Event<E> {
     public static final int MOUSE_RELEASED = 11;
     public static final int MOUSE_ENTERED = 12;
     public static final int MOUSE_EXITED = 13;
+    public static final int MOUSE_WHEEL_SCROLLED = 14;
 
     public static final int KEY_TYPED = 20;
     public static final int KEY_PRESSED = 21;
