@@ -9,6 +9,7 @@ public class Constants {
 
     public static final Vec2 GRAVITY = new Vec2(0, 100);
 
+    public static final double INF_MASS = -1;
     public static final double EPSILON = 0.0001;
     public static final double EPSILON_SQ = EPSILON * EPSILON;
 

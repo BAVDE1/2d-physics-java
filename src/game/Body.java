@@ -41,7 +41,7 @@ public abstract class Body {
     public abstract void computeMass();
     public abstract void setOrient();
     public abstract double getRadius();
-    public abstract boolean isPointIn();
+    public abstract boolean isPointIn(Vec2 p);
     public abstract void render(Surface surface);
 
     public void applyForce(Vec2 force) {
