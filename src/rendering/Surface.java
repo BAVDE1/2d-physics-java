@@ -6,51 +6,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Surface extends JPanel {
-    public boolean initialised = false;
-    private boolean opaqueBg = false;
+public class Surface extends SurfaceGraphics {
+    private final JPanel panel = new JPanel() {
+        public Dimension getPreferredSize() {
+            if (super.isPreferredSizeSet()) {
+                return super.getPreferredSize();
+            }
+            return size;
+        }
+    };
 
+    private boolean opaqueBg = false;
     public Vec2 pos = new Vec2();
     public Dimension size;
-    public SurfaceGraphics graphics;
-
-    public Surface(int width, int height) {
-        this.size = new Dimension(width, height);
-    }
 
     public Surface(Dimension size) {
+        super(size);
         this.size = size;
     }
 
-    public Surface(int width, int height, Vec2 pos) {
-        size = new Dimension(width, height);
+    public Surface(Dimension size, Vec2 pos) {
+        super(size);
+        this.size = size;
         this.pos = pos;
     }
 
     public void init() {
         if (!initialised) {
-            setLayout(new BorderLayout());
-            setBounds((int) pos.x, (int) pos.y, size.width, size.height);
-            setOpaque(opaqueBg);
+            panel.setLayout(new BorderLayout());
+            panel.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
+            panel.setOpaque(opaqueBg);
 
-            initialised = true;
-            graphics = new SurfaceGraphics(getGraphics(), size);
+            init(panel.getGraphics());
         }
-    }
-
-    public void unInit() {
-        if (initialised) {
-            initialised = false;
-            graphics.dispose();
-        }
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        if (super.isPreferredSizeSet()) {
-            return super.getPreferredSize();
-        }
-        return size;
     }
 
     public void blit(Image canvas) {
@@ -58,7 +46,7 @@ public class Surface extends JPanel {
     }
 
     public void blit(Image canvas, Vec2 pos) {
-        graphics.drawImage(canvas, (int) pos.x, (int) pos.y, this);
+        drawImage(canvas, (int) pos.x, (int) pos.y, this.panel);
     }
 
     public void blitScaled(CanvasSurface canvas, int scale) {
@@ -66,7 +54,7 @@ public class Surface extends JPanel {
     }
 
     public void blitScaled(CanvasSurface canvas, int scale, Vec2 pos) {
-        Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.height * scale, BufferedImage.SCALE_DEFAULT);
+        Image img = canvas.getScaledImg(canvas.size.width * scale, canvas.size.height * scale);
         blit(img, pos);
     }
 
@@ -77,10 +65,8 @@ public class Surface extends JPanel {
         opaqueBg = isOpaque;
     }
 
-    public CanvasSurface toCanvasSurface() {
-        CanvasSurface c = new CanvasSurface(size);
-        paintAll(c.graphics.getRawGraphics());
-        return c;
+    public JPanel getRawPanel() {
+        return panel;
     }
 
     public String toString() {

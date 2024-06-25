@@ -39,8 +39,8 @@ public class Circle extends Body {
     public void render(Surface surface) {
         Vec2 rot = new Vec2(Math.cos(orientation) * radius, Math.sin(orientation) * radius);
 
-        surface.graphics.drawCircle(colour, pos, radius);
-        surface.graphics.drawLine(colour, pos, pos.add(rot));
+        surface.drawCircle(colour, pos, radius);
+        surface.drawLine(colour, pos, pos.add(rot));
     }
 
     public void setOrient() {}

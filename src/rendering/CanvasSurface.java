@@ -3,37 +3,25 @@ package src.rendering;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class CanvasSurface extends BufferedImage {
-    boolean initialised = false;
-
+public class CanvasSurface extends SurfaceGraphics {
+    public BufferedImage buffImg;
     public Dimension size;
-    public SurfaceGraphics graphics;
 
     public CanvasSurface(Dimension size) {
-        super(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
+        super(size);
+        this.buffImg = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         this.size = size;
         init();
     }
 
-    public CanvasSurface(Dimension size, boolean noInit) {
-        super(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
-        this.size = size;
-
-        if (!noInit) {init();}
-    }
-
     public void init() {
         if (!initialised) {
-            initialised = true;
-            graphics = new SurfaceGraphics(getGraphics(), size);
+            init(buffImg.getGraphics());
         }
     }
 
-    public void unInit() {
-        if (initialised) {
-            initialised = false;
-            graphics.dispose();
-        }
+    public Image getScaledImg(int width, int height) {
+        return buffImg.getScaledInstance(width, height, BufferedImage.SCALE_DEFAULT);
     }
 
     @Override

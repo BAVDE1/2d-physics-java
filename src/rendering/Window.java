@@ -68,7 +68,7 @@ public class Window {
 
     private void addFinalSurface(Surface finalSurface) {
         if (!initialised) {
-            frame.getContentPane().add(finalSurface, BorderLayout.CENTER);
+            frame.getContentPane().add(finalSurface.getRawPanel(), BorderLayout.CENTER);
             frame.pack();
             finalSurface.init();  // init after packing so surface graphics are current
         }
@@ -76,14 +76,14 @@ public class Window {
 
     public void addSurface(Surface surface) {
         if (!surface.initialised) {
-            frame.getContentPane().add(surface, BorderLayout.CENTER);
+            frame.getContentPane().add(surface.getRawPanel(), BorderLayout.CENTER);
             surface.init();
         }
     }
 
     public void removeSurface(Surface surface) {
         if (surface.initialised) {
-            frame.remove(surface);
+            frame.remove(surface.getRawPanel());
             surface.unInit();
         }
     }

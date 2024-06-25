@@ -32,7 +32,7 @@ public class Game {
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
 
-            canvasSurface.graphics.drawLine(Color.WHITE, new Vec2(), Vec2.fromDim(canvasSurface.size));
+            canvasSurface.drawLine(Color.WHITE, new Vec2(), Vec2.fromDim(canvasSurface.size));
         }
     }
 
