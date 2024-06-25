@@ -69,6 +69,10 @@ public class SurfaceGraphics {
         graphics.drawImage(img, x, y, o);
     }
 
+    public Color getColour() {
+        return graphics.getColor();
+    }
+
     public Graphics getRawGraphics() {
         return graphics;
     }

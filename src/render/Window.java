@@ -64,16 +64,9 @@ public class Window {
 
     private void addFinalSurface(Surface finalSurface) {
         if (!initialised) {
-            addSurface(finalSurface, true);
+            frame.getContentPane().add(finalSurface, BorderLayout.CENTER);
             frame.pack();
             finalSurface.init();  // init after packing so surface graphics are current
-        }
-    }
-
-    public void addSurface(Surface surface, boolean noInit) {
-        if (!surface.initialised) {
-            frame.getContentPane().add(surface, BorderLayout.CENTER);
-            if (!noInit) {surface.init();}
         }
     }
 

@@ -32,8 +32,8 @@ public class Game {
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
 
-            canvasSurface.graphics.fill(new Color(Constants.randInt(0, 255)));
-            canvasSurface.graphics.line(Color.RED, new Vec2(), Vec2.fromDim(canvasSurface.size));
+            canvasSurface.graphics.fill(Constants.BG_COL);
+            finalSurface.graphics.fill(Color.RED);
         }
     }
 
@@ -72,7 +72,6 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
     }
 
     public void mainLoop(double dt) {
