@@ -101,7 +101,7 @@ public class Window {
         return list;
     }
 
-    public void open() throws InterruptedException {
+    public void open() {
         open = true;
         frame.setVisible(true);
     }

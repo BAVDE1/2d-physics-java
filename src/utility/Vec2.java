@@ -26,6 +26,10 @@ public class Vec2 {
         y = 0;
     }
 
+    public void set(Vec2 vec) {
+        set(vec.x, vec.y);
+    }
+
     public void set(double x, double y) {
         this.x = x;
         this.y = y;
@@ -41,6 +45,62 @@ public class Vec2 {
 
     public Dimension toDim() {
         return new Dimension((int) x, (int) y);
+    }
+
+    /**
+     * =======
+     * ADV USE
+     * =======
+     */
+
+    public double lengthSq() {
+        return (x * x + y * y);
+    }
+
+    public double length() {
+        return Math.sqrt(lengthSq());
+    }
+
+    public Vec2 normaliseSelf() {
+        return normalise(this);
+    }
+
+    public static Vec2 normalise(Vec2 out) {
+        double lsq = out.lengthSq();
+        if (lsq > Constants.EPSILON_SQ) {
+            double inv_len = 1 / Math.sqrt(out.lengthSq());
+            out.mul(inv_len);
+        }
+        return out;
+    }
+
+    public double dot(Vec2 vec) {
+        return x * vec.x + y * vec.y;
+    }
+
+    public void clampSelf(double min, double max) {
+        clampSelf(new Vec2(min, min), new Vec2(max, max));
+    }
+
+    public void clampSelf(Vec2 min, Vec2 max) {
+        x = Math.max(min.x, Math.min(max.x, x));
+        y = Math.max(min.y, Math.min(max.y, y));
+    }
+
+    public void negateSelf() {
+        set(negate());
+    }
+
+    public Vec2 negate() {
+        return new Vec2(-x, -y);
+    }
+
+    public Vec2 cross(double v) {
+        return new Vec2(y * v, x * -v);
+    }
+
+    public double cross(Vec2 vec) {
+        return x * vec.y - y * vec.x;
     }
 
     /**

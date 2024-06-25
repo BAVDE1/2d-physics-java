@@ -24,13 +24,15 @@ public class Game {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
     }
 
-    public void start() throws InterruptedException {
+    public void start() {
         if (!running) {
             running = true;
             window.open();
 
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
+
+            canvasSurface.graphics.drawLine(Color.WHITE, new Vec2(), Vec2.fromDim(canvasSurface.size));
         }
     }
 
@@ -69,7 +71,7 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
-        finalSurface.blit(canvasSurface);
+        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
     }
 
     public void mainLoop(double dt) {
