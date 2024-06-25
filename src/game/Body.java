@@ -26,12 +26,14 @@ public abstract class Body {
     public double torque = 0;
 
     // mass
+    public double density = 1;
+    public double restitution = 0.2;
     public double mass;
     public double invMass;
     public double inertia;
     public double invInertia;
 
-    public Body(Vec2 pos, Vec2 ogPos) {
+    public Body(Vec2 pos) {
         this.pos = pos;
         this.ogPos = pos.getClone();
     }
