@@ -1,10 +1,10 @@
 package src.game;
 
 import src.Main;
-import src.render.CanvasSurface;
-import src.render.Event;
-import src.render.Surface;
-import src.render.Window;
+import src.rendering.CanvasSurface;
+import src.rendering.Event;
+import src.rendering.Surface;
+import src.rendering.Window;
 import src.utility.Constants;
 import src.utility.Vec2;
 
@@ -21,7 +21,7 @@ public class Game {
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
     public Game() {
-        window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
+        window.init(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
     }
 
     public void start() {

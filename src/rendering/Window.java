@@ -1,10 +1,11 @@
-package src.render;
+package src.rendering;
 
 import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Window {
@@ -13,7 +14,7 @@ public class Window {
     private final JFrame frame = new JFrame();
     private Color bgCol = Color.WHITE;
 
-    public LinkedList<Event<?>> eventQueue = new LinkedList<>();
+    public ArrayList<Event<?>> eventQueue = new ArrayList<>();
 
     public Dimension size;
     public double scale = 1;
@@ -23,16 +24,16 @@ public class Window {
         this.bgCol = bg_col;
     }
 
-    public void initWindow(String windowName, Dimension size, Surface finalSurface) {
+    public void init(String windowName, Dimension size, Surface finalSurface) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         Vec2 screenSize = new Vec2(screen.width, screen.height);
         Vec2 pos = screenSize.div(2).sub(Vec2.fromDim(size).div(2));
 
-        initWindow(windowName, pos, size, finalSurface);
+        init(windowName, pos, size, finalSurface);
     }
 
-    public void initWindow(String windowName, Vec2 pos, Dimension size, Surface finalSurface) {
+    public void init(String windowName, Vec2 pos, Dimension size, Surface finalSurface) {
         if (!initialised) {
             this.size = size;
 
@@ -95,8 +96,8 @@ public class Window {
         eventQueue.add(event);
     }
 
-    public LinkedList<Event<?>> popAllEvents() {
-        LinkedList<Event<?>> list = new LinkedList<>(eventQueue);
+    public ArrayList<Event<?>> popAllEvents() {
+        ArrayList<Event<?>> list = new ArrayList<>(eventQueue);
         eventQueue.clear();
         return list;
     }

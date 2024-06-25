@@ -1,4 +1,4 @@
-package src.render;
+package src.rendering;
 
 import javax.swing.*;
 import java.awt.event.*;

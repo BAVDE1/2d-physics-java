@@ -1,4 +1,4 @@
-package src.render;
+package src.rendering;
 
 import src.utility.Vec2;
 

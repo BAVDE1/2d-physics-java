@@ -1,6 +1,4 @@
-package src.render;
-
-import src.utility.Vec2;
+package src.rendering;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
