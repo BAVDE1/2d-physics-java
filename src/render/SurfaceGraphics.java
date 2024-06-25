@@ -24,7 +24,7 @@ public class SurfaceGraphics {
         graphics.fillRect(0, 0, size.width, size.height);
     }
 
-    public void line(Color col, Vec2 from, Vec2 to) {
+    public void drawLine(Color col, Vec2 from, Vec2 to) {
         graphics.setColor(col);
         graphics.drawLine((int) from.x, (int) from.y, (int) to.x, (int) to.y);
     }

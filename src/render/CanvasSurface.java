@@ -25,13 +25,17 @@ public class CanvasSurface extends BufferedImage {
     }
 
     public void init() {
-        initialised = true;
-        graphics = new SurfaceGraphics(getGraphics(), size);
+        if (!initialised) {
+            initialised = true;
+            graphics = new SurfaceGraphics(getGraphics(), size);
+        }
     }
 
     public void unInit() {
-        initialised = false;
-        graphics.dispose();
+        if (initialised) {
+            initialised = false;
+            graphics.dispose();
+        }
     }
 
     @Override

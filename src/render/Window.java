@@ -11,11 +11,17 @@ public class Window {
     public boolean initialised = false;
     public boolean open = false;
     private final JFrame frame = new JFrame();
+    private Color bgCol = Color.WHITE;
 
     public LinkedList<Event<?>> eventQueue = new LinkedList<>();
 
     public Dimension size;
     public double scale = 1;
+
+    public Window() {}
+    public Window(Color bg_col) {
+        this.bgCol = bg_col;
+    }
 
     public void initWindow(String windowName, Dimension size, Surface finalSurface) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
@@ -35,6 +41,7 @@ public class Window {
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.getContentPane().setLayout(new GridLayout(1, 1));
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
+            frame.getContentPane().setBackground(bgCol);
 
             addFinalSurface(finalSurface);
             Listener.addWindowListeners(this);
@@ -56,10 +63,6 @@ public class Window {
 
         scale = scaleMultiplier;
         size = scaledSize;
-    }
-
-    public JFrame getRawFrame() {
-        return frame;
     }
 
     private void addFinalSurface(Surface finalSurface) {
@@ -98,7 +101,7 @@ public class Window {
         return list;
     }
 
-    public void open() {
+    public void open() throws InterruptedException {
         open = true;
         frame.setVisible(true);
     }
@@ -113,6 +116,10 @@ public class Window {
     public void shutDown() {
         open = false;
         System.exit(0);
+    }
+
+    public JFrame getRawFrame() {
+        return frame;
     }
 
     @Override

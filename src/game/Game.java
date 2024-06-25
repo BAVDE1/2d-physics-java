@@ -15,7 +15,7 @@ import java.awt.event.WindowEvent;
 
 public class Game {
     public boolean running = false;
-    private final Window window = new Window();
+    private final Window window = new Window(Constants.BG_COL);
 
     CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE);
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
@@ -24,16 +24,13 @@ public class Game {
         window.initWindow(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
     }
 
-    public void start() {
+    public void start() throws InterruptedException {
         if (!running) {
             running = true;
             window.open();
 
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
-
-            canvasSurface.graphics.fill(Constants.BG_COL);
-            finalSurface.graphics.fill(Color.RED);
         }
     }
 
@@ -72,6 +69,7 @@ public class Game {
     private void update(double dt) {}
 
     private void render() {
+        finalSurface.blit(canvasSurface);
     }
 
     public void mainLoop(double dt) {

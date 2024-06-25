@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class Surface extends JPanel {
     public boolean initialised = false;
+    private boolean opaqueBg = false;
 
     public Vec2 pos = new Vec2();
     public Dimension size;
@@ -27,16 +28,21 @@ public class Surface extends JPanel {
     }
 
     public void init() {
-        setLayout(new BorderLayout());
-        setBounds((int) pos.x,  (int) pos.y, size.width, size.height);
+        if (!initialised) {
+            setLayout(new BorderLayout());
+            setBounds((int) pos.x, (int) pos.y, size.width, size.height);
+            setOpaque(opaqueBg);
 
-        initialised = true;
-        graphics = new SurfaceGraphics(getGraphics(), size);
+            initialised = true;
+            graphics = new SurfaceGraphics(getGraphics(), size);
+        }
     }
 
     public void unInit() {
-        initialised = false;
-        graphics.dispose();
+        if (initialised) {
+            initialised = false;
+            graphics.dispose();
+        }
     }
 
     @Override
@@ -62,6 +68,13 @@ public class Surface extends JPanel {
     public void blitScaled(CanvasSurface canvas, int scale, Vec2 pos) {
         Image img = canvas.getScaledInstance(canvas.size.width * scale, canvas.size.height * scale, BufferedImage.SCALE_DEFAULT);
         blit(img, pos);
+    }
+
+    public void setOpaqueBg(boolean isOpaque) {
+        if (initialised) {
+            throw new InternalError("ERROR: Cannot set opaque if surface is already initialised");
+        }
+        opaqueBg = isOpaque;
     }
 
     public CanvasSurface toCanvasSurface() {
