@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 public class Surface extends SurfaceGraphics {
     private final JPanel panel = new JPanel() {
+        @Override
         public Dimension getPreferredSize() {
             if (super.isPreferredSizeSet()) {
                 return super.getPreferredSize();
