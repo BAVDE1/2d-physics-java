@@ -1,5 +1,6 @@
 package src.rendering;
 
+import src.game.Polygon;
 import src.utility.Vec2;
 
 import java.awt.*;
@@ -87,6 +88,17 @@ public abstract class SurfaceGraphics {
     public void drawImage(Image img, int x, int y, ImageObserver o) {
         checkInit();
         graphics.drawImage(img, x, y, o);
+    }
+
+    public void drawPolygon(Polygon p) {
+        checkInit();
+        Vec2 lastVert = p.getOrientedVert(0);  // store lastV to avoid re-calculation
+
+        for (int i = 1; i < p.vCount; i++) {
+            Vec2 vert = p.getOrientedVert(i);
+            drawLine(p.colour, vert, lastVert);
+            lastVert = vert;
+        }
     }
 
     public Color getColour() {

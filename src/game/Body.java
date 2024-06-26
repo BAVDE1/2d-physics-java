@@ -8,7 +8,7 @@ import java.awt.*;
 
 public abstract class Body {
     public Vec2 pos;
-    private final Vec2 ogPos;
+    public final Vec2 ogPos;
 
     public boolean isStatic = Constants.DEFAULT_STATIC;
     public int layer = Constants.DEFAULT_LAYER;

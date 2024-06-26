@@ -103,6 +103,10 @@ public class Vec2 {
         return x * vec.y - y * vec.x;
     }
 
+    public Vec2 cross() {
+        return new Vec2(y, -x);
+    }
+
     /**
      * =========
      * BASIC USE
