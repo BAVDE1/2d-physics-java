@@ -14,12 +14,16 @@ public class Polygon extends Body {
     public ArrayList<Vec2> normals;
     public Mat2 mat2 = new Mat2(orientation);
 
+    public Polygon(Vec2 pos) {
+        super(pos);
+    }
+
     public Polygon(Vec2 pos, ArrayList<Vec2> vertices) {
         super(pos);
         init(vertices);
     }
 
-    private void init(ArrayList<Vec2> vertices) {
+    public void init(ArrayList<Vec2> vertices) {
         this.vertices = vertices;
         vCount = vertices.size();
 
