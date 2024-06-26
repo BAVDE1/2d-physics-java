@@ -1,11 +1,10 @@
 package src.utility;
 
 import java.awt.*;
-import java.lang.foreign.ValueLayout;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Constants {
-    public static final int FPS = 10;
+    public static final int FPS = 2;
     public static final double DT = 1 / (double) FPS;
 
     public static final Vec2 GRAVITY = new Vec2(0, 100);
@@ -35,7 +34,7 @@ public class Constants {
     }
 
     public static boolean doLinesCross(Vec2 aFrom, Vec2 aTo, Vec2 bFrom, Vec2 bTo) {
-        interface Func {int func(Vec2 a, Vec2 b, Vec2 c);}
+        interface Func {int call(Vec2 a, Vec2 b, Vec2 c);}
         
         Func onSegment = (a, b, c) ->
                 ((b.x <= Math.max(a.x, c.x)) && (b.x >= Math.min(a.x, c.x)) &&
@@ -46,10 +45,10 @@ public class Constants {
             return orient > 0 ? 1 : (orient < 0 ? 2 : 0);  // 0 = collinear, 1 = clockwise, 2 = counter
         };
 
-        int o1 = getOrient.func(bFrom, bTo, aFrom);
-        int o2 = getOrient.func(bFrom, bTo, aTo);
-        int o3 = getOrient.func(aFrom, aTo, bFrom);
-        int o4 = getOrient.func(aFrom, aTo, bTo);
+        int o1 = getOrient.call(bFrom, bTo, aFrom);
+        int o2 = getOrient.call(bFrom, bTo, aTo);
+        int o3 = getOrient.call(aFrom, aTo, bFrom);
+        int o4 = getOrient.call(aFrom, aTo, bTo);
 
         // normal case (return early)
         if ((o1 != o2) && (o3 != o4)) {
@@ -57,10 +56,10 @@ public class Constants {
         }
 
         // collinear cases
-        boolean cc_1 = (o1 == 0) && onSegment.func(bFrom, aFrom, bTo) == 1;
-        boolean cc_2 = (o2 == 0) && onSegment.func(bFrom, aTo, bTo) == 1;
-        boolean cc_3 = (o3 == 0) && onSegment.func(aFrom, bFrom, aTo) == 1;
-        boolean cc_4 = (o4 == 0) && onSegment.func(aFrom, bTo, aTo) == 1;
+        boolean cc_1 = (o1 == 0) && onSegment.call(bFrom, aFrom, bTo) == 1;
+        boolean cc_2 = (o2 == 0) && onSegment.call(bFrom, aTo, bTo) == 1;
+        boolean cc_3 = (o3 == 0) && onSegment.call(aFrom, bFrom, aTo) == 1;
+        boolean cc_4 = (o4 == 0) && onSegment.call(aFrom, bTo, aTo) == 1;
 
         return cc_1 || cc_2 || cc_3 || cc_4;
     }
