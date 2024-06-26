@@ -38,7 +38,6 @@ public class Window {
             this.size = size;
 
             frame.setTitle(windowName);
-            frame.setResizable(false);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.getContentPane().setLayout(new GridLayout(1, 1));
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
@@ -47,23 +46,9 @@ public class Window {
             addFinalSurface(finalSurface);
             Listener.addWindowListeners(this);
 
+            frame.setResizable(false);
             initialised = true;
         }
-    }
-
-    public void scaleWindow(double scaleMultiplier) {
-        Vec2 s = Vec2.fromDim(size);
-        Dimension scaledSize = s.mul(scaleMultiplier / scale).toDim();
-
-        // retain position
-        Vec2 framePos = new Vec2(frame.getX(), frame.getY());
-        Vec2 newPos = framePos.add(s.div(2)).sub(Vec2.fromDim(scaledSize).div(2));
-
-        frame.setBounds((int) newPos.x, (int) newPos.y, scaledSize.width, scaledSize.height);
-        frame.pack();
-
-        scale = scaleMultiplier;
-        size = scaledSize;
     }
 
     private void addFinalSurface(Surface finalSurface) {
