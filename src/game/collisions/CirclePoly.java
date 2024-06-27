@@ -14,7 +14,7 @@ public class CirclePoly {
 
         // find the best separation within radius
         for (int i = 0; i < p.vCount; i++) {
-            double s = p.normals.get(i).dot(centre.sub(p.vertices.get(i)));
+            double s = p.normals.get(i).dot(centre.sub(p.getVert(i)));
             if (s > c.getRadius()) {
                 return false;  // too far away, skip collision
             } else if (s > separation) {

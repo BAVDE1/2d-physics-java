@@ -65,7 +65,7 @@ public class Polygon extends Body {
 
         // translate vertices to new pos (com)
         for (int i = 0; i < vCount; i++) {
-            vertices.get(i).subSelf(com);
+            getVert(i).subSelf(com);
         }
 
         mass = Math.abs(density * area);
