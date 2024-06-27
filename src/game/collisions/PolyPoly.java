@@ -17,10 +17,6 @@ public class PolyPoly {
 
     }
 
-    private static void findFaceVertices(Polygon p, int inx) {
-
-    }
-
     private static void clipFaces(Vec2 iFace1, Vec2 iFace2, Vec2 normal, double side) {
 
     }

@@ -23,8 +23,8 @@ public class CirclePoly {
             }
         }
 
-        Vec2 v1 = p.vertices.get(vInx);
-        Vec2 v2 = p.vertices.get((vInx + 1) % p.vCount);
+        Vec2 v1 = p.getVert(vInx);
+        Vec2 v2 = p.getVert(vInx + 1);
 
         // centre within poly
         if (separation < Constants.EPSILON) {

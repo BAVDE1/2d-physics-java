@@ -28,7 +28,7 @@ public class Polygon extends Body {
         vCount = vertices.size();
 
         for (int i = 0; i < vCount; i++) {
-            Vec2 face = vertices.get((i + 1) % vCount).sub(vertices.get(i));
+            Vec2 face = getVert(i + 1).sub(vertices.get(i));
             Vec2 normal = face.cross();
             normals.add(normal.normaliseSelf());
         }
@@ -44,8 +44,8 @@ public class Polygon extends Body {
         double inv3 = (double) 1 / 3;
 
         for (int i = 0; i < vCount; i++) {
-            Vec2 v1 = vertices.get(i);
-            Vec2 v2 = vertices.get((i + 1) % vCount);
+            Vec2 v1 = getVert(i);
+            Vec2 v2 = getVert(i + 1);
 
             double areaSq = v1.cross(v2);
             double areaTri = areaSq * 0.5;
@@ -75,7 +75,11 @@ public class Polygon extends Body {
     }
 
     public Vec2 getOrientedVert(int i) {
-        return mat2.mul(vertices.get(i)).add(pos);
+        return mat2.mul(getVert(i)).add(pos);
+    }
+
+    public Vec2 getVert(int i) {
+        return vertices.get(i % vCount);
     }
 
     @Override
@@ -96,7 +100,7 @@ public class Polygon extends Body {
 
         for (int i = 0; i < vCount; i++) {
             Vec2 v1 = getOrientedVert(i);
-            Vec2 v2 = getOrientedVert((i + 1) % vCount);
+            Vec2 v2 = getOrientedVert(i + 1);
 
             intersections += Constants.doLinesCross(p1, p2, v1, v2) ? 1 : 0;
         }
