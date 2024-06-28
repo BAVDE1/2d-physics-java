@@ -1,7 +1,12 @@
 package src.rendering;
 
+import src.utility.MathUtils;
+
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Listener {
     public static void addWindowListeners(Window window) {
@@ -39,10 +44,20 @@ public class Listener {
     }
 
     public static KeyListener newKeyListener(Window w) {
+        ArrayList<Integer> currentPressedKeys = new ArrayList<>();
+
         return new KeyListener() {
             public void keyTyped(KeyEvent e) {w.queueEvent(new Event<>(Event.KEY_TYPED, e));}
-            public void keyPressed(KeyEvent e) {w.queueEvent(new Event<>(Event.KEY_PRESSED, e));}
-            public void keyReleased(KeyEvent e) {w.queueEvent(new Event<>(Event.KEY_RELEASED, e));}
+            public void keyPressed(KeyEvent e) {
+                if (!currentPressedKeys.contains(e.getKeyCode())) {
+                    w.queueEvent(new Event<>(Event.KEY_PRESSED, e));
+                    currentPressedKeys.add(e.getKeyCode());
+                }
+            }
+            public void keyReleased(KeyEvent e) {
+                w.queueEvent(new Event<>(Event.KEY_RELEASED, e));
+                currentPressedKeys.remove((Integer) e.getKeyCode());
+            }
         };
     }
 }
