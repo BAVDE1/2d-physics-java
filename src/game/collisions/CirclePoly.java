@@ -4,15 +4,21 @@ import src.game.Circle;
 import src.game.Manifold;
 import src.game.Polygon;
 import src.utility.Constants;
+import src.utility.MathUtils;
 import src.utility.Vec2;
 
 public class CirclePoly {
     public static boolean CircleToPoly(Manifold m, Circle c, Polygon p) {
+        // not close enough to collide, ignore
+        if (MathUtils.tooFarToCollide(c, p)) {
+            return false;
+        }
+
         Vec2 centre = p.mat2.transpose().mul(c.pos.sub(p.pos));  // circle center into polygon model space
-        double separation = Double.MIN_VALUE;
-        int vInx = 0;
 
         // find the best separation within radius
+        int vInx = 0;
+        double separation = Double.MIN_VALUE;
         for (int i = 0; i < p.vCount; i++) {
             double s = p.normals.get(i).dot(centre.sub(p.getVert(i)));
             if (s > c.getRadius()) {

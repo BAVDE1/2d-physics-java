@@ -3,6 +3,7 @@ package src.game;
 import src.rendering.Surface;
 import src.utility.Constants;
 import src.utility.Mat2;
+import src.utility.MathUtils;
 import src.utility.Vec2;
 
 import java.awt.*;
@@ -13,6 +14,8 @@ public class Polygon extends Body {
     public ArrayList<Vec2> vertices;
     public ArrayList<Vec2> normals;
     public Mat2 mat2 = new Mat2(orientation);
+    private double radiusOuter;
+    private double radiusInner;
 
     public Polygon(Vec2 pos) {
         super(pos);
@@ -34,6 +37,7 @@ public class Polygon extends Body {
         }
 
         computeMass();
+        computeRadii();  // after mass
     }
 
     @Override
@@ -74,6 +78,19 @@ public class Polygon extends Body {
         invInertia = isStatic ? 0 : 1 / tempInertia;
     }
 
+    private void computeRadii() {
+        double innerR = Double.MAX_VALUE;
+        double outerR = Double.MIN_VALUE;
+
+        for (Vec2 vert : vertices) {
+            double dist = MathUtils.roundUp((pos.sub(pos.add(vert))).length(), 2);
+            innerR = Math.min(dist, innerR);
+            outerR = Math.max(dist, outerR);
+        }
+        radiusInner = innerR;
+        radiusOuter = outerR;
+    }
+
     public Vec2 getOrientedVert(int i) {
         return mat2.mul(getVert(i)).add(pos);
     }
@@ -89,7 +106,7 @@ public class Polygon extends Body {
 
     @Override
     public double getRadius() {
-        return 0;
+        return radiusOuter;
     }
 
     /** if intersections is odd, point is within poly. Assumes poly does not loop in on itself */
@@ -102,7 +119,7 @@ public class Polygon extends Body {
             Vec2 v1 = getOrientedVert(i);
             Vec2 v2 = getOrientedVert(i + 1);
 
-            intersections += Constants.doLinesCross(p1, p2, v1, v2) ? 1 : 0;
+            intersections += MathUtils.doLinesCross(p1, p2, v1, v2) ? 1 : 0;
         }
         return (intersections % 2) != 0;
     }
