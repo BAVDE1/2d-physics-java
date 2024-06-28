@@ -125,7 +125,7 @@ public class Polygon extends Body {
     }
 
     /** Find objects furthest support point (vertex) along given direction */
-    public Vec2 findSupport(Vec2 direction) {
+    public Vec2 getSupport(Vec2 direction) {
         double bestProjection = Double.MIN_VALUE;
         Vec2 bestVert = new Vec2();
 

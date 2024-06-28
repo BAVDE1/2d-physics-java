@@ -5,6 +5,9 @@ import src.game.Body;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MathUtils {
+    public static class IntClass {public int value;}
+    public static class DoubleClass {public double value;}
+
     public static boolean tooFarToCollide(Body b1, Body b2) {
         return tooFarToCollide(b2.pos.sub(b1.pos), b1.getRadius() + b2.getRadius());
     }
@@ -20,6 +23,11 @@ public class MathUtils {
     public static double roundUp(double value, int dPlaces) {
         int placesInt = (int) Math.pow(10, dPlaces);
         return Math.ceil(value * placesInt) / placesInt;
+    }
+
+    /** Greater than with bias */
+    public static boolean greaterThan(double a, double b) {
+        return a >= (b * Constants.BIAS_RELATIVE) + (a * Constants.BIAS_ABSOLUTE);
     }
 
     public static boolean doLinesCross(Vec2 aFrom, Vec2 aTo, Vec2 bFrom, Vec2 bTo) {
