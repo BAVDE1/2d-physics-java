@@ -1,5 +1,6 @@
 package src.game.collisions;
 
+import src.game.Body;
 import src.game.Circle;
 import src.game.Manifold;
 import src.game.Polygon;
@@ -7,8 +8,13 @@ import src.utility.Constants;
 import src.utility.MathUtils;
 import src.utility.Vec2;
 
-public class CirclePoly {
-    public static boolean CircleToPoly(Manifold m, Circle c, Polygon p) {
+public class CirclePoly implements Collision {
+    public static final CirclePoly instance = new CirclePoly();
+
+    public boolean handleCollision(Manifold m, Body a, Body b) {
+        Circle c = (Circle) a;
+        Polygon p = (Polygon) b;
+
         // not close enough to collide, ignore
         if (MathUtils.tooFarToCollide(c, p)) {
             return false;

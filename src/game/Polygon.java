@@ -21,6 +21,11 @@ public class Polygon extends Body {
         super(pos);
     }
 
+    @Override
+    public Type getType() {
+        return Type.Polygon;
+    }
+
     public Polygon(Vec2 pos, ArrayList<Vec2> vertices) {
         super(pos);
         init(vertices);

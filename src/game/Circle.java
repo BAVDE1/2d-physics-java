@@ -15,6 +15,11 @@ public class Circle extends Body {
     }
 
     @Override
+    public Type getType() {
+        return Type.Circle;
+    }
+
+    @Override
     public void computeMass() {
         double m = Math.PI * radius * radius * density;
         mass = isStatic ? Constants.INF_MASS : m;

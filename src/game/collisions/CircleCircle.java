@@ -1,12 +1,18 @@
 package src.game.collisions;
 
+import src.game.Body;
 import src.game.Circle;
 import src.game.Manifold;
 import src.utility.MathUtils;
 import src.utility.Vec2;
 
-public class CircleCircle {
-    public static boolean CircleToCircle(Manifold m, Circle c1, Circle c2) {
+public class CircleCircle implements Collision {
+    public static final CircleCircle instance = new CircleCircle();
+
+    public boolean handleCollision(Manifold m, Body a, Body b) {
+        Circle c1 = (Circle) a;
+        Circle c2 = (Circle) b;
+
         // not close enough to collide, ignore
         Vec2 vec = c2.pos.sub(c1.pos);
         double radius = c1.getRadius() + c2.getRadius();

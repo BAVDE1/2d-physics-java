@@ -33,11 +33,14 @@ public abstract class Body {
     public double inertia;
     public double invInertia;
 
+    public enum Type {Circle, Polygon}
+
     public Body(Vec2 pos) {
         this.pos = pos;
         this.ogPos = pos.getClone();
     }
 
+    public abstract Type getType();
     public abstract void computeMass();
     public abstract void setOrient();
     public abstract double getRadius();
