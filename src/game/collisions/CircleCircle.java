@@ -7,8 +7,6 @@ import src.utility.MathUtils;
 import src.utility.Vec2;
 
 public class CircleCircle implements Collision {
-    public static final CircleCircle instance = new CircleCircle();
-
     public boolean handleCollision(Manifold m, Body a, Body b) {
         Circle c1 = (Circle) a;
         Circle c2 = (Circle) b;

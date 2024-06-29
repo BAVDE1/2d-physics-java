@@ -5,8 +5,8 @@ import src.game.Manifold;
 
 public interface Collision {
     Collision[][] collide = {
-            {CircleCircle.instance, CirclePoly.instance},
-            {PolyCircle.instance, PolyPoly.instance}
+            {new CircleCircle(), new CirclePoly()},
+            {new PolyCircle(), new PolyPoly()}
     };
 
     boolean handleCollision(Manifold m, Body a, Body b);

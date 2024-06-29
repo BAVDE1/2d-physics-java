@@ -9,8 +9,6 @@ import src.utility.MathUtils;
 import src.utility.Vec2;
 
 public class CirclePoly implements Collision {
-    public static final CirclePoly instance = new CirclePoly();
-
     public boolean handleCollision(Manifold m, Body a, Body b) {
         Circle c = (Circle) a;
         Polygon p = (Polygon) b;

@@ -1,7 +1,6 @@
 package src.game;
 
-import src.rendering.Surface;
-import src.utility.Constants;
+import src.rendering.CanvasSurface;
 import src.utility.Mat2;
 import src.utility.MathUtils;
 import src.utility.Vec2;
@@ -146,8 +145,8 @@ public class Polygon extends Body {
     }
 
     @Override
-    public void render(Surface surface) {
-        surface.drawRect(colour, pos, new Dimension(1, 1));  // com
-        surface.drawPolygon(this);
+    public void render(CanvasSurface cSurface) {
+        cSurface.drawRect(colour, pos, new Dimension(1, 1));  // com
+        cSurface.drawPolygon(this);
     }
 }

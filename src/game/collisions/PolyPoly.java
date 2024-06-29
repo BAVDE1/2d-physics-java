@@ -8,8 +8,6 @@ import src.utility.MathUtils;
 import src.utility.Vec2;
 
 public class PolyPoly implements Collision {
-    public static final PolyPoly instance = new PolyPoly();
-
     public boolean handleCollision(Manifold m, Body a, Body b) {
         Polygon p1 = (Polygon) a;
         Polygon p2 = (Polygon) b;

@@ -4,7 +4,6 @@ import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Surface extends SurfaceGraphics {
     private final JPanel panel = new JPanel() {

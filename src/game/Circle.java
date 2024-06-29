@@ -1,6 +1,6 @@
 package src.game;
 
-import src.rendering.Surface;
+import src.rendering.CanvasSurface;
 import src.utility.Constants;
 import src.utility.Vec2;
 
@@ -41,11 +41,11 @@ public class Circle extends Body {
     }
 
     @Override
-    public void render(Surface surface) {
+    public void render(CanvasSurface cSurface) {
         Vec2 rot = new Vec2(Math.cos(orientation) * radius, Math.sin(orientation) * radius);
 
-        surface.drawCircle(colour, pos, radius);
-        surface.drawLine(colour, pos, pos.add(rot));
+        cSurface.drawCircle(colour, pos, radius);
+        cSurface.drawLine(colour, pos, pos.add(rot));
     }
 
     public void setOrient() {}

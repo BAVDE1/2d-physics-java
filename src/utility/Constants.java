@@ -9,13 +9,14 @@ public class Constants {
     public static final int FPS = 2;
     public static final double DT = 1 / (double) FPS;
 
-    public static final Vec2 GRAVITY = new Vec2(0, 100);
-
     public static final double INF_MASS = -1;
     public static final double EPSILON = 0.0001;
     public static final double EPSILON_SQ = EPSILON * EPSILON;
     public static final double BIAS_RELATIVE = 0.95;
     public static final double BIAS_ABSOLUTE = 0.01;
+
+    public static final Vec2 GRAVITY = new Vec2(0, 100);
+    public static final double RESTING = GRAVITY.mul(DT).lengthSq() + EPSILON;
 
     public static final String WINDOW_NAME = "some window!!!";
     public static final int BASE_WIDTH = 500;  // minimum: 136

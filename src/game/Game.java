@@ -11,7 +11,6 @@ import src.utility.Vec2;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowEvent;
 
 public class Game {

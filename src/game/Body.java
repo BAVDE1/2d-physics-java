@@ -1,6 +1,6 @@
 package src.game;
 
-import src.rendering.Surface;
+import src.rendering.CanvasSurface;
 import src.utility.Constants;
 import src.utility.Vec2;
 
@@ -45,7 +45,7 @@ public abstract class Body {
     public abstract void setOrient();
     public abstract double getRadius();
     public abstract boolean isPointIn(Vec2 p);
-    public abstract void render(Surface surface);
+    public abstract void render(CanvasSurface cSurface);
 
     public void applyForce(Vec2 force) {
         this.force.addSelf(force);
