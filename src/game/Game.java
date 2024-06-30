@@ -60,8 +60,8 @@ public class Game {
             for (Event<?> event : window.popAllEvents()) {
                 switch (event.event) {
                     case WindowEvent e: windowEvent(event.type, e); break;
-                    case MouseEvent e: mouseEvent(event.type, e);break;
-                    case KeyEvent e: keyEvent(event.type, e);break;
+                    case MouseEvent e: mouseEvent(event.type, e); break;
+                    case KeyEvent e: keyEvent(event.type, e); break;
                     default: throw new ClassFormatError(String.format("'%s' case not handled. add it to events switch.", event.event));
                 }
             }

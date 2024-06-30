@@ -53,11 +53,11 @@ public class PolyPoly implements Collision {
                 double posSide = sidePlaneNorm.dot(rV2);
 
                 // Clip incident face to reference face side planes
-                clipFaces(sidePlaneNorm.negate(), negSide, iV1, iV2, iV1, iV2, intStorage);  // intStorage holds clip amount
+                clipFaces(sidePlaneNorm.negate(), negSide, iV1, iV2, intStorage);  // intStorage holds clip amount
                 if (intStorage.value < 2) {
                     return false;
                 }
-                clipFaces(sidePlaneNorm, posSide, iV1, iV2, iV1, iV2, intStorage);
+                clipFaces(sidePlaneNorm, posSide, iV1, iV2, intStorage);
                 if (intStorage.value < 2) {
                     return false;
                 }
@@ -141,7 +141,7 @@ public class PolyPoly implements Collision {
     }
 
     private static void clipFaces(Vec2 norm, double side, Vec2 iFace1, Vec2 iFace2,
-                                  Vec2 returnedFace1, Vec2 returnedFace2, MathUtils.IntClass returnedClipNum) {
+                                  MathUtils.IntClass returnedClipNum) {
         int clipNum = 0;
         Vec2[] faces = {iFace1.getClone(), iFace2.getClone()};
 
@@ -167,8 +167,8 @@ public class PolyPoly implements Collision {
             clipNum += 1;
         }
 
-        returnedFace1.set(faces[0]);
-        returnedFace2.set(faces[1]);
+        iFace1.set(faces[0]);
+        iFace2.set(faces[1]);
         returnedClipNum.value = clipNum;
     }
 }
