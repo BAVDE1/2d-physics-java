@@ -41,12 +41,20 @@ public class Surface extends SurfaceGraphics {
         }
     }
 
-    public void blit(Image canvas) {
-        blit(canvas, new Vec2());
+    public void blit(CanvasSurface canvas) {
+        blit(canvas.buffImg, new Vec2());
     }
 
-    public void blit(Image canvas, Vec2 pos) {
-        drawImage(canvas, (int) pos.x, (int) pos.y, this.panel);
+    public void blit(CanvasSurface canvas, Vec2 pos) {
+        blit(canvas.buffImg, pos);
+    }
+
+    public void blit(Image img) {
+        blit(img, new Vec2());
+    }
+
+    public void blit(Image img, Vec2 pos) {
+        drawImage(img, (int) pos.x, (int) pos.y, this.panel);
     }
 
     public void blitScaled(CanvasSurface canvas, int scale) {
