@@ -1,9 +1,6 @@
 package src.utility;
 
-import src.game.Body;
-
 import java.awt.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Constants {
     public static final int FPS = 10;
@@ -18,7 +15,7 @@ public class Constants {
     public static final Vec2 GRAVITY = new Vec2(0, 100);
     public static final double RESTING = GRAVITY.mul(DT).lengthSq() + EPSILON;
 
-    public static final String WINDOW_NAME = "some window!!!";
+    public static final String WINDOW_NAME = "agagalalalalala";
     public static final int BASE_WIDTH = 500;  // minimum: 136
     public static final int BASE_HEIGHT = 300;
     public static final int RES_MUL = 2;

@@ -91,13 +91,12 @@ public class Window {
         frame.setVisible(true);
     }
 
+    /** Raises an event that must be caught, and then shutDown() the window */
     public void closeWindowSafe() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
-    /**
-     * Unsafe shutdown. Call closeWindowSafe() instead, catch the event and then call shutDown()
-     */
+    /** Unsafe shutdown. Call closeWindowSafe() instead, catch the event and then call shutDown() */
     public void shutDown() {
         open = false;
         System.exit(0);

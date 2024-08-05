@@ -2,6 +2,8 @@ package src;
 
 import src.game.Game;
 
+import java.io.Console;
+
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
@@ -9,7 +11,7 @@ public class Main {
     }
 
     /**
-     * Slow, inaccurate ticker, but fairly light on cpu.
+     * Slow, inaccurate ticker, but light on cpu.
      * Runs program (negligibly) slower.
      * Kind of a hybrid time stepper as it still returns a static dt haha.
      */
@@ -57,9 +59,11 @@ public class Main {
 
                         try {
                             game.mainLoop(dt);
-                            Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
+                            if (accumulator > dt) {  // only sleep if done taking from accumulated
+                                Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
+                            }
                         } catch (InterruptedException e) {
-                            throw new RuntimeException("Program closed while thread was asleep");
+                            throw new RuntimeException("Program closed while thread was asleep (between frames)");
                         }
                     }
                 }

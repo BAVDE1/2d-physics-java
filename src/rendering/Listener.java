@@ -1,12 +1,8 @@
 package src.rendering;
 
-import src.utility.MathUtils;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Listener {
     public static void addWindowListeners(Window window) {

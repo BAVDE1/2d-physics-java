@@ -43,9 +43,7 @@ public class Game {
         }
     }
 
-    private void mouseEvent(int type, MouseEvent me) {
-
-    }
+    private void mouseEvent(int type, MouseEvent me) {}
 
     private void keyEvent(int type, KeyEvent ke) {
         if (type == Event.KEY_PRESSED) {
