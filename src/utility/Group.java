@@ -22,19 +22,26 @@ public class Group<T> {
         addMul(objects);
     }
 
+    public void addToLayer(int layer, int amount) {
+        layerValues.put(layer, layerValues.containsValue(layer) ? layerValues.get(layer) + amount : amount);  // set, or get (and add)
+    }
+
+    public void takeFromLayer(int layer, int amount) {
+        layerValues.put(layer, layerValues.get(layer) - amount);
+        if (layerValues.get(layer) <= 0) {
+            layerValues.remove(layer);  // remove if nothing in layer
+        }
+    }
+
     public void add(T obj) {
         int layer = getObjLayer(obj);
-        if (!layerValues.containsValue(layer)) {
-            layerValues.put(layer, 0);  // new layer
-        }
+        addToLayer(layer, 1);
 
-        int inx = 0;  // place obj based on layer
+        int inx = 0;  // place obj at inx based on layer
         for (int l : layerValues.keySet()) {
             inx += l <= layer ? layerValues.get(l) : 0;
         }
-
         objects.add(inx, obj);
-        layerValues.put(layer, layerValues.get(layer) + 1);
     }
 
     public void addMul(ArrayList<T> objects) {
@@ -54,11 +61,7 @@ public class Group<T> {
             storage.add(obj);
 
             // balance layer values
-            int layer = getObjLayer(obj);
-            layerValues.put(layer, layerValues.get(layer) - 1);
-            if (layerValues.get(layer) <= 0) {
-                layerValues.remove(layer);
-            }
+            takeFromLayer(getObjLayer(obj), 1);
             return true;
         }
         return false;
@@ -79,11 +82,28 @@ public class Group<T> {
         return false;
     }
 
+    public void changeObjLayer(T obj, int newLayer) {
+        assert obj instanceof Body;  // must be body
+
+        takeFromLayer(((Body) obj).layer, 1);
+        addToLayer(newLayer, 1);
+        ((Body) obj).layer = newLayer;
+
+        objectsIntegrity();
+    }
+
     /**
-     * Checks integrity of group and fixes any issues.
-     * Returns whether group order was altered
+     * Checks integrity of objects group and layers map, and fixes any issues.
+     * Returns whether group order or layers were altered
      */
-    public boolean checkIntegrity() {
+    public boolean checkAndFixIntegrity() {
+        boolean objChanged = objectsIntegrity();
+        boolean layersChanged = layersIntegrity();  // check both regardless
+        return objChanged || layersChanged;
+    }
+
+    /** Check and fix integrity of objects array */
+    private boolean objectsIntegrity() {
         ArrayList<Integer> incidentIndexes = new ArrayList<>();
 
         // find incident indexes
@@ -105,9 +125,24 @@ public class Group<T> {
                 int inx = incidentIndexes.get(i);
                 incidentObjects.add(objects.remove(inx));
             }
-            addMul(incidentObjects);
+            addMul(incidentObjects);  // add back in popped objects
             return true;
         }
         return false;
+    }
+
+    /** Check and gix integrity of layer map */
+    private boolean layersIntegrity() {
+        Map<Integer, Integer> checkedLayers = new HashMap<>();
+        for (T obj : objects) {
+            int layer = getObjLayer(obj);
+            checkedLayers.put(layer, checkedLayers.containsValue(layer) ? checkedLayers.get(layer) + 1 : 1);
+        }
+
+        boolean hasChanged = checkedLayers.entrySet().equals(layerValues.entrySet());
+        if (hasChanged) {
+            layerValues = checkedLayers;  // replace with accurate map
+        }
+        return hasChanged;
     }
 }
