@@ -12,18 +12,15 @@ public class Vec2 {
     }
 
     public Vec2(Vec2 vec2) {
-        this.x = vec2.x;
-        this.y = vec2.y;
+        this(vec2.x, vec2.y);
     }
 
     public Vec2(Dimension dim) {
-        this.x = dim.width;
-        this.y = dim.height;
+        this(dim.width, dim.height);
     }
 
     public Vec2() {
-        x = 0;
-        y = 0;
+        this(0, 0);
     }
 
     public void set(Vec2 vec) {

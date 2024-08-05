@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Constants {
-    public static final int FPS = 2;
+    public static final int FPS = 10;
     public static final double DT = 1 / (double) FPS;
 
     public static final double INF_MASS = -1;
