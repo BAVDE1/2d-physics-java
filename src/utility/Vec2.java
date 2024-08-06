@@ -104,6 +104,10 @@ public class Vec2 {
         return new Vec2(y, -x);
     }
 
+    public boolean equals(Vec2 other) {
+        return x == other.x && y == other.y;
+    }
+
     /**
      * =========
      * BASIC USE

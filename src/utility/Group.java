@@ -7,18 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Group<T> {
-    public final T groupType;
-
     // Key: layer, Value: amount of objects in layer
     public Map<Integer, Integer> layerValues = new HashMap<>();
     public ArrayList<T> objects = new ArrayList<>();
 
-    public Group(T type) {
-        groupType = type;
-    }
-
-    public Group(T type, ArrayList<T> objects) {
-        this(type);
+    public Group() {}
+    public Group(ArrayList<T> objects) {
         addMul(objects);
     }
 

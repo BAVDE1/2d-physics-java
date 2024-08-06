@@ -17,6 +17,8 @@ public class Game {
     public boolean running = false;
     private final Window window = new Window(Constants.BG_COL);
 
+    Scene mainScene = new Scene();
+
     CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE);
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
@@ -66,9 +68,14 @@ public class Game {
         }
     }
 
-    private void update(double dt) {}
+    private void update(double dt) {
+        mainScene.update(dt);
+    }
 
     private void render() {
+        mainScene.render(canvasSurface);
+
+        // finish rendering
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
     }
 

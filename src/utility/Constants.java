@@ -9,8 +9,11 @@ public class Constants {
     public static final double INF_MASS = -1;
     public static final double EPSILON = 0.0001;
     public static final double EPSILON_SQ = EPSILON * EPSILON;
+    public static final double PENETRATION_ALLOWANCE = 0.05;
+    public static final double POSITIONAL_CORRECTION = 0.2;  // 20% - 80%
     public static final double BIAS_RELATIVE = 0.95;
     public static final double BIAS_ABSOLUTE = 0.01;
+    public static final int RESOLVE_ITERATIONS = 8;  // higher = more stable but less performant
 
     public static final Vec2 GRAVITY = new Vec2(0, 100);
     public static final double RESTING = GRAVITY.mul(DT).lengthSq() + EPSILON;

@@ -5,6 +5,8 @@ import src.rendering.CanvasSurface;
 import src.utility.Constants;
 import src.utility.Vec2;
 
+import java.awt.*;
+
 public class Manifold {
     private final Body a;
     private final Body b;
@@ -94,7 +96,21 @@ public class Manifold {
         }
     }
 
-    public void render(CanvasSurface cSurface) {
+    /** Fix floating point errors (using linear projection) and objects within one another */
+    public void positionalCorrection() {
+        double correction = Math.max(penetration - Constants.PENETRATION_ALLOWANCE, 0.0) / (a.invMass + b.invMass) * Constants.POSITIONAL_CORRECTION;
 
+        a.pos.addSelf(normal.mul(-a.invMass * correction));
+        b.pos.addSelf(normal.mul(b.invMass * correction));
+    }
+
+    public void render(CanvasSurface cSurface) {
+        for (int i = 0; i < cCount; i++) {
+            Vec2 cp = cPoints[i];  // contact point... it stands for contact point
+            if (!cp.equals(new Vec2())) {
+                cSurface.fillRect(Color.RED, cp, new Dimension(1, 1));  // point
+                cSurface.drawLine(Color.YELLOW, cp, cp.add(normal.mul(2)));  // 2 pixel long line
+            }
+        }
     }
 }
