@@ -112,6 +112,6 @@ public class Window {
 
     @Override
     public String toString() {
-        return String.format("Window[size=%s]", size);
+        return String.format("Window(size=%s)", size);
     }
 }

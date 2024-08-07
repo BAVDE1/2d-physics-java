@@ -17,7 +17,7 @@ public class Group<T> {
     }
 
     public void addToLayer(int layer, int amount) {
-        layerValues.put(layer, layerValues.containsValue(layer) ? layerValues.get(layer) + amount : amount);  // set, or get (and add)
+        layerValues.put(layer, layerValues.containsKey(layer) ? layerValues.get(layer) + amount : amount);  // set, or get (and add)
     }
 
     public void takeFromLayer(int layer, int amount) {
@@ -131,7 +131,7 @@ public class Group<T> {
         Map<Integer, Integer> checkedLayers = new HashMap<>();
         for (T obj : objects) {
             int layer = getObjLayer(obj);
-            checkedLayers.put(layer, checkedLayers.containsValue(layer) ? checkedLayers.get(layer) + 1 : 1);
+            checkedLayers.put(layer, checkedLayers.containsKey(layer) ? checkedLayers.get(layer) + 1 : 1);
         }
 
         boolean hasChanged = checkedLayers.entrySet().equals(layerValues.entrySet());

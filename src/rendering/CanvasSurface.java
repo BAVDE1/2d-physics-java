@@ -26,6 +26,6 @@ public class CanvasSurface extends SurfaceGraphics {
 
     @Override
     public String toString() {
-        return String.format("CanvasSurface[size=%s, initialised=%s]", size, initialised);
+        return String.format("CanvasSurface(size=%s, initialised=%s)", size, initialised);
     }
 }

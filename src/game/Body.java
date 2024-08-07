@@ -94,6 +94,6 @@ public abstract class Body {
 
     @Override
     public String toString() {
-        return String.format("Body[pos=%s, static=%s, layer=%s]", pos, isStatic, layer);
+        return String.format("%s(pos=%s, static=%s, layer=%s)", getType(), pos, isStatic, layer);
     }
 }

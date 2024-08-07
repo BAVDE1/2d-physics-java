@@ -220,6 +220,6 @@ public class Vec2 {
 
     @Override
     public String toString() {
-        return String.format("Vec2[x=%s, y=%s]", x, y);
+        return String.format("Vec2(x=%s, y=%s)", x, y);
     }
 }

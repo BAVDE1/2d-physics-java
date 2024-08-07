@@ -78,6 +78,6 @@ public class Surface extends SurfaceGraphics {
     }
 
     public String toString() {
-        return String.format("Surface[pos=%s, size=%s, initialised=%s]", pos, size, initialised);
+        return String.format("Surface(pos=%s, size=%s, initialised=%s)", pos, size, initialised);
     }
 }

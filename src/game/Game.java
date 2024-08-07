@@ -38,9 +38,9 @@ public class Game {
             Thread timeStepper = Main.newTimeStepper(Constants.DT, this);
             timeStepper.start();
 
-            Circle c = new Circle(new Vec2(10, 10), true, 10);
-            SquarePoly sp = new SquarePoly(new Vec2(50, 10), true, new Dimension(10, 30));
-            Polygon p = new Polygon(new Vec2(30, 50), true, new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
+            Circle c = new Circle(new Vec2(10, 10), 10);
+            SquarePoly sp = new SquarePoly(new Vec2(50, 10), new Dimension(10, 30));
+            Polygon p = new Polygon(new Vec2(30, 50), new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
             mainScene.objectsGroup.add(c);
             mainScene.objectsGroup.add(sp);
             mainScene.objectsGroup.add(p);
