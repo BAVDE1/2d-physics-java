@@ -34,7 +34,7 @@ public class Game {
             running = true;
             window.open();
 
-            Thread timeStepper = Main.newTicker(Constants.DT, this);
+            Thread timeStepper = Main.newTimeStepper(Constants.DT, this);
             timeStepper.start();
 
             Circle c = new Circle(new Vec2(10, 10), true, 10);
@@ -88,7 +88,12 @@ public class Game {
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }
 
-    public void mainLoop(double dt) {
+    public void mainLoop(double dt, double accumulated) {
+        // idk if the fps is actually being found properly
+        double fps = accumulated * Constants.FPS;
+        fps = Constants.FPS - Constants.FPS * (fps - Math.floor(fps));
+        System.out.println(fps);
+
         events();
         update(dt);
         render();
