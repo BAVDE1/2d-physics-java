@@ -10,8 +10,7 @@ public class Main {
 
     /**
      * Slow, (very) inaccurate ticker, but light on cpu.
-     * Runs program (negligibly) slower.
-     * Kind of a hybrid time stepper as it still returns a static dt haha.
+     * NOT DETERMINISTIC
      */
     public static Thread newTicker(double dt, Game game) {
         return new Thread() {
@@ -24,7 +23,7 @@ public class Main {
                     lastFrame = t;
 
                     try {
-                        game.mainLoop(dt, accumulated);
+                        game.mainLoop(accumulated, accumulated);
                         Thread.sleep((long) Math.floor(dt * 1000));
                     } catch (InterruptedException e) {
                         throw new RuntimeException("Program closed while thread was asleep");
@@ -35,8 +34,8 @@ public class Main {
     }
 
     /**
-     * Proper, far more accurate time stepper.
-     * Heavier on the cpu for second half of time between frames (as thread sleeps for half of dt once stepped).
+     * Proper, accurate time stepper.
+     * if game has optimised boolean toggled, thread sleeps for half of dt once stepped.
      */
     public static Thread newTimeStepper(double dt, Game game) {
         return new Thread() {
