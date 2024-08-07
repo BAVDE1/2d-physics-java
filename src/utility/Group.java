@@ -29,12 +29,13 @@ public class Group<T> {
 
     public void add(T obj) {
         int layer = getObjLayer(obj);
-        addToLayer(layer, 1);
 
         int inx = 0;  // place obj at inx based on layer
         for (int l : layerValues.keySet()) {
             inx += l <= layer ? layerValues.get(l) : 0;
         }
+
+        addToLayer(layer, 1);  // after inx search
         objects.add(inx, obj);
     }
 

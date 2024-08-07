@@ -3,7 +3,7 @@ package src.utility;
 import java.awt.*;
 
 public class Constants {
-    public static final int FPS = 10;
+    public static final int FPS = 60;
     public static final double DT = 1 / (double) FPS;
 
     public static final double INF_MASS = -1;
@@ -15,7 +15,7 @@ public class Constants {
     public static final double BIAS_ABSOLUTE = 0.01;
     public static final int RESOLVE_ITERATIONS = 8;  // higher = more stable but less performant
 
-    public static final Vec2 GRAVITY = new Vec2(0, 100);
+    public static final Vec2 GRAVITY = new Vec2(0, 200);
     public static final double RESTING = GRAVITY.mul(DT).lengthSq() + EPSILON;
 
     public static final String WINDOW_NAME = "agagalalalalala";

@@ -11,26 +11,27 @@ import java.util.ArrayList;
 public class Polygon extends Body {
     public int vCount;
     public ArrayList<Vec2> vertices;
-    public ArrayList<Vec2> normals;
+    public ArrayList<Vec2> normals = new ArrayList<>();
     public Mat2 mat2 = new Mat2(orientation);
     private double radiusOuter;
     private double radiusInner;
 
-    public Polygon(Vec2 pos) {
+    Polygon(Vec2 pos) {
         super(pos);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.Polygon;
     }
 
     public Polygon(Vec2 pos, ArrayList<Vec2> vertices) {
+        this(pos, false, vertices);
+    }
+
+    public Polygon(Vec2 pos, boolean isStatic, ArrayList<Vec2> vertices) {
         super(pos);
+        this.isStatic = isStatic;
+
         init(vertices);
     }
 
-    public void init(ArrayList<Vec2> vertices) {
+    void init(ArrayList<Vec2> vertices) {
         this.vertices = vertices;
         vCount = vertices.size();
 
@@ -104,6 +105,11 @@ public class Polygon extends Body {
     }
 
     @Override
+    public Type getType() {
+        return Type.Polygon;
+    }
+
+    @Override
     public void setOrient() {
         mat2.setRad(orientation);
     }
@@ -146,7 +152,7 @@ public class Polygon extends Body {
 
     @Override
     public void render(CanvasSurface cSurface) {
-        cSurface.drawRect(colour, pos, new Dimension(1, 1));  // com
+        cSurface.drawRect(colour, pos, new Dimension(0, 0));  // com
         cSurface.drawPolygon(this);
     }
 }

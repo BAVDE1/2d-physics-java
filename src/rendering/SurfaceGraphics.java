@@ -63,6 +63,7 @@ public abstract class SurfaceGraphics {
 
     public void drawCircle(Color col, Vec2 pos, int radius) {
         checkInit();
+        radius *= 2;  // counteract oval draw cutting expected size in half
         graphics.setColor(col);
         pos = pos.sub(radius / 2.0);
         graphics.drawOval((int) pos.x, (int) pos.y, radius, radius);
@@ -92,12 +93,12 @@ public abstract class SurfaceGraphics {
 
     public void drawPolygon(Polygon p) {
         checkInit();
-        Vec2 lastVert = p.getOrientedVert(0);  // store lastV to avoid re-calculation
+        Vec2 prevVert = p.getOrientedVert(p.vCount - 1);  // store lastV to avoid re-calculation
 
-        for (int i = 1; i < p.vCount; i++) {
+        for (int i = 0; i < p.vCount; i++) {
             Vec2 vert = p.getOrientedVert(i);
-            drawLine(p.colour, vert, lastVert);
-            lastVert = vert;
+            drawLine(p.colour, vert, prevVert);
+            prevVert = vert;
         }
     }
 

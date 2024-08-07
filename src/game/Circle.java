@@ -8,10 +8,15 @@ public class Circle extends Body {
     private final int radius;
 
     public Circle(Vec2 pos, int radius) {
+        this(pos, false, radius);
+    }
+
+    public Circle(Vec2 pos, boolean isStatic, int radius) {
         super(pos);
         this.radius = radius;
+        this.isStatic = isStatic;
 
-        computeMass();
+        computeMass();  // do last
     }
 
     @Override

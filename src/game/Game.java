@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
     public boolean running = false;
@@ -34,7 +37,12 @@ public class Game {
             Thread timeStepper = Main.newTicker(Constants.DT, this);
             timeStepper.start();
 
-            canvasSurface.drawLine(Color.WHITE, new Vec2(), Vec2.fromDim(canvasSurface.size));
+            Circle c = new Circle(new Vec2(10, 10), true, 10);
+            SquarePoly sp = new SquarePoly(new Vec2(50, 10), true, new Dimension(10, 30));
+            Polygon p = new Polygon(new Vec2(30, 50), true, new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
+            mainScene.objectsGroup.add(c);
+            mainScene.objectsGroup.add(sp);
+            mainScene.objectsGroup.add(p);
         }
     }
 
@@ -73,10 +81,11 @@ public class Game {
     }
 
     private void render() {
+        canvasSurface.fill(Constants.BG_COL);  // before rendering
+
         mainScene.render(canvasSurface);
 
-        // finish rendering
-        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);
+        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }
 
     public void mainLoop(double dt) {
