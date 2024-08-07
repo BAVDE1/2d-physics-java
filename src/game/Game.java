@@ -6,6 +6,7 @@ import src.rendering.Event;
 import src.rendering.Surface;
 import src.rendering.Window;
 import src.utility.Constants;
+import src.utility.MathUtils;
 import src.utility.Vec2;
 
 import java.awt.*;
@@ -13,11 +14,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Game {
     public boolean running = false;
+    public boolean optimiseTimeStepper = true;  // recommended if fps < 200
     private final Window window = new Window(Constants.BG_COL);
 
     Scene mainScene = new Scene();
@@ -89,10 +90,10 @@ public class Game {
     }
 
     public void mainLoop(double dt, double accumulated) {
-        // idk if the fps is actually being found properly
         double fps = accumulated * Constants.FPS;
         fps = Constants.FPS - Constants.FPS * (fps - Math.floor(fps));
-        System.out.println(fps);
+        String sFps = String.valueOf(MathUtils.round(fps, 2));
+        window.setTitle(String.format("%s (%s fps)", Constants.WINDOW_NAME, sFps));
 
         events();
         update(dt);

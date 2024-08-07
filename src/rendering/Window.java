@@ -36,7 +36,7 @@ public class Window {
         if (!initialised) {
             this.size = size;
 
-            frame.setTitle(windowName);
+            setTitle(windowName);
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frame.getContentPane().setLayout(new GridLayout(1, 1));
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
@@ -100,6 +100,10 @@ public class Window {
     public void shutDown() {
         open = false;
         System.exit(0);
+    }
+
+    public void setTitle(String str) {
+        frame.setTitle(str);
     }
 
     public JFrame getRawFrame() {

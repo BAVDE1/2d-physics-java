@@ -20,9 +20,22 @@ public class MathUtils {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    public static double roundUp(double value, int dPlaces) {
-        int placesInt = (int) Math.pow(10, dPlaces);
-        return Math.ceil(value * placesInt) / placesInt;
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        double factor = Math.pow(10, places);
+        value = value * factor;
+        return (double) Math.round(value) / factor;
+    }
+
+    public static double roundUp(double value, int places) {
+        int factor = (int) Math.pow(10, places);
+        return Math.ceil(value * factor) / factor;
+    }
+
+    public static double roundDown(double value, int places) {
+        int factor = (int) Math.pow(10, places);
+        return Math.floor(value * factor) / factor;
     }
 
     /** Greater than with bias */

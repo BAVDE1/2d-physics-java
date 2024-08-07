@@ -2,8 +2,6 @@ package src;
 
 import src.game.Game;
 
-import java.io.Console;
-
 public class Main {
     public static void main(String[] args) {
         Game game = new Game();
@@ -59,7 +57,7 @@ public class Main {
 
                         try {
                             game.mainLoop(dt, accumulator + dt);
-                            if (accumulator > dt) {  // only sleep if done taking from accumulated
+                            if (game.optimiseTimeStepper && accumulator < dt) {  // only sleep if done taking from accumulated
                                 Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
                             }
                         } catch (InterruptedException e) {
