@@ -153,6 +153,6 @@ public class Polygon extends Body {
     @Override
     public void render(CanvasSurface cSurface) {
         cSurface.drawRect(colour, pos, new Dimension(0, 0));  // com
-        cSurface.drawPolygon(this);
+        cSurface.drawPolygon(colour, this);
     }
 }
