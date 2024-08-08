@@ -1,6 +1,7 @@
 package src;
 
 import src.game.Game;
+import src.utility.MathUtils;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,12 +20,12 @@ public class Main {
             public void run() {
                 while (game.running) {
                     double t = System.nanoTime();
-                    double accumulated = (t - lastFrame) / 1_000_000_000.0;  // kept for debugging purposes
+                    double accumulated = MathUtils.nanoToSecond(t - lastFrame);
                     lastFrame = t;
 
                     try {
-                        game.mainLoop(accumulated, accumulated);
-                        Thread.sleep((long) Math.floor(dt * 1000));
+                        game.mainLoop(accumulated);
+                        Thread.sleep((long) Math.floor(dt * 1_000));
                     } catch (InterruptedException e) {
                         throw new RuntimeException("Program closed while thread was asleep");
                     }
@@ -47,7 +48,7 @@ public class Main {
             public void run() {
                 while (game.running) {
                     double t = System.nanoTime();
-                    accumulator += (t - lastFrame) / 1_000_000_000.0;
+                    accumulator += MathUtils.nanoToSecond(t - lastFrame);
                     accumulator = Math.min(1, accumulator);  // min of 1 fps (avoid spiral of doom)
                     lastFrame = t;
 
@@ -55,9 +56,9 @@ public class Main {
                         accumulator -= dt;
 
                         try {
-                            game.mainLoop(dt, accumulator + dt);
-                            if (game.optimiseTimeStepper && accumulator < dt) {  // only sleep if done taking from accumulated
-                                Thread.sleep((long) Math.floor(halfDt * 1000));  // give it a little break *-*
+                            double loopTime = game.mainLoop(dt);
+                            if (game.optimiseTimeStepper && accumulator + loopTime < halfDt) {  // only sleep if there is enough time
+                                Thread.sleep((long) Math.floor(halfDt * 1_000));  // give it a little break *-*
                             }
                         } catch (InterruptedException e) {
                             throw new RuntimeException("Program closed while thread was asleep (between frames)");

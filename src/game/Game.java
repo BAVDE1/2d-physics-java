@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
+    public int frameCounter = 0;
+    public double timeStarted;  // milliseconds
+
     public boolean running = false;
     public boolean optimiseTimeStepper = true;  // recommended if fps < 200
     private final Window window = new Window(Constants.BG_COL);
@@ -36,6 +39,7 @@ public class Game {
             window.open();
 
             Thread timeStepper = Main.newTimeStepper(Constants.DT, this);
+            timeStarted = System.currentTimeMillis();
             timeStepper.start();
 
             Circle c = new Circle(new Vec2(10, 10), 10);
@@ -89,14 +93,18 @@ public class Game {
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }
 
-    public void mainLoop(double dt, double accumulated) {
-        double fps = accumulated * Constants.FPS;
-        fps = Constants.FPS - Constants.FPS * (fps - Math.floor(fps));
-        String sFps = String.valueOf(MathUtils.round(fps, 2));
+    /** returns time taken in seconds */
+    public double mainLoop(double dt) {
+        double tStart = System.nanoTime();
+
+        double fps = ++frameCounter / ((System.currentTimeMillis() - timeStarted) / 1_000);
+        String sFps = String.valueOf(MathUtils.round(fps, 1));
         window.setTitle(String.format("%s (%s fps)", Constants.WINDOW_NAME, sFps));
 
         events();
         update(dt);
         render();
+        System.out.println(frameCounter);
+        return MathUtils.nanoToSecond(System.nanoTime() - tStart);
     }
 }

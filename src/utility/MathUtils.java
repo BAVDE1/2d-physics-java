@@ -20,6 +20,10 @@ public class MathUtils {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
+    public static double nanoToSecond(double nanoSecs) {
+        return nanoSecs / 1_000_000_000.0;
+    }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
