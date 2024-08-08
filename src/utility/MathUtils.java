@@ -1,6 +1,7 @@
 package src.utility;
 
-import src.game.Body;
+import src.game.Constants;
+import src.game.objects.Body;
 
 import java.util.concurrent.ThreadLocalRandom;
 

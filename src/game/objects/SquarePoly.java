@@ -1,4 +1,4 @@
-package src.game;
+package src.game.objects;
 
 import src.utility.Vec2;
 

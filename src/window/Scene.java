@@ -1,7 +1,8 @@
-package src.game;
+package src.window;
 
-import src.rendering.CanvasSurface;
-import src.utility.Constants;
+import src.game.collisions.Manifold;
+import src.game.objects.Body;
+import src.game.Constants;
 import src.utility.Group;
 
 import java.util.ArrayList;

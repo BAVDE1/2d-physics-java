@@ -1,10 +1,9 @@
 package src.game.collisions;
 
-import src.game.Body;
-import src.game.Circle;
-import src.game.Manifold;
-import src.game.Polygon;
-import src.utility.Constants;
+import src.game.objects.Body;
+import src.game.objects.Circle;
+import src.game.objects.Polygon;
+import src.game.Constants;
 import src.utility.MathUtils;
 import src.utility.Vec2;
 

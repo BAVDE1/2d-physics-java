@@ -1,6 +1,6 @@
-package src.rendering;
+package src.window;
 
-import src.game.Polygon;
+import src.game.objects.Polygon;
 import src.utility.Vec2;
 
 import java.awt.*;

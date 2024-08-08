@@ -1,7 +1,6 @@
 package src.game.collisions;
 
-import src.game.Body;
-import src.game.Manifold;
+import src.game.objects.Body;
 
 public interface Collision {
     Collision[][] collide = {

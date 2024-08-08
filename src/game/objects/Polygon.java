@@ -1,6 +1,6 @@
-package src.game;
+package src.game.objects;
 
-import src.rendering.CanvasSurface;
+import src.window.CanvasSurface;
 import src.utility.Mat2;
 import src.utility.MathUtils;
 import src.utility.Vec2;

@@ -1,6 +1,6 @@
 package src.utility;
 
-import src.game.Body;
+import src.game.objects.Body;
 
 import java.util.ArrayList;
 import java.util.HashMap;

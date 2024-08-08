@@ -1,4 +1,6 @@
-package src.utility;
+package src.game;
+
+import src.utility.Vec2;
 
 import java.awt.*;
 

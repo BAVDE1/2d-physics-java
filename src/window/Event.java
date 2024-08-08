@@ -1,4 +1,4 @@
-package src.rendering;
+package src.window;
 
 import java.lang.reflect.Field;
 

@@ -1,7 +1,7 @@
-package src.game;
+package src.game.objects;
 
-import src.rendering.CanvasSurface;
-import src.utility.Constants;
+import src.window.CanvasSurface;
+import src.game.Constants;
 import src.utility.Vec2;
 
 import java.awt.*;

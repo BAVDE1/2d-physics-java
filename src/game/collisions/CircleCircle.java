@@ -1,8 +1,7 @@
 package src.game.collisions;
 
-import src.game.Body;
-import src.game.Circle;
-import src.game.Manifold;
+import src.game.objects.Body;
+import src.game.objects.Circle;
 import src.utility.MathUtils;
 import src.utility.Vec2;
 

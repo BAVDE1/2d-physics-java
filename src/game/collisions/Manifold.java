@@ -1,8 +1,8 @@
-package src.game;
+package src.game.collisions;
 
-import src.game.collisions.Collision;
-import src.rendering.CanvasSurface;
-import src.utility.Constants;
+import src.game.objects.Body;
+import src.window.CanvasSurface;
+import src.game.Constants;
 import src.utility.Vec2;
 
 import java.awt.*;

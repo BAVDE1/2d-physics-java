@@ -1,5 +1,7 @@
 package src.utility;
 
+import src.game.Constants;
+
 import java.awt.*;
 
 public class Vec2 {

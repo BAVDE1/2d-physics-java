@@ -1,13 +1,14 @@
 package src.game;
 
 import src.Main;
-import src.rendering.CanvasSurface;
-import src.rendering.Event;
-import src.rendering.Surface;
-import src.rendering.Window;
-import src.utility.Constants;
+import src.game.objects.Circle;
+import src.game.objects.Polygon;
+import src.game.objects.SquarePoly;
+import src.window.*;
 import src.utility.MathUtils;
 import src.utility.Vec2;
+import src.window.Event;
+import src.window.Window;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -44,7 +45,7 @@ public class Game {
 
             Circle c = new Circle(new Vec2(10, 10), 10);
             SquarePoly sp = new SquarePoly(new Vec2(50, 10), new Dimension(10, 30));
-            Polygon p = new Polygon(new Vec2(30, 50), new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
+            src.game.objects.Polygon p = new Polygon(new Vec2(30, 50), new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
             mainScene.objectsGroup.add(c);
             mainScene.objectsGroup.add(sp);
             mainScene.objectsGroup.add(p);
@@ -104,7 +105,6 @@ public class Game {
         events();
         update(dt);
         render();
-        System.out.println(frameCounter);
         return MathUtils.nanoToSecond(System.nanoTime() - tStart);
     }
 }
