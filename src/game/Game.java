@@ -90,6 +90,7 @@ public class Game {
         canvasSurface.fill(Constants.BG_COL);  // before rendering
 
         mainScene.render(canvasSurface);
+        canvasSurface.drawText(Color.WHITE, new Vec2(), 10, "abcdefghijklmnopqrstuvwxyz1234567890");
 
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }

@@ -1,11 +1,14 @@
 package src.window;
 
+import src.game.Constants;
 import src.game.objects.Polygon;
 import src.utility.Vec2;
 
 import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.util.Map;
 
 public abstract class SurfaceGraphics {
     public boolean initialised = false;
@@ -20,6 +23,7 @@ public abstract class SurfaceGraphics {
         if (!initialised) {
             initialised = true;
             this.graphics = graphics;
+            this.graphics.setFont(Constants.DEFAULT_FONT);
         }
         checkInit();
     }
@@ -129,6 +133,40 @@ public abstract class SurfaceGraphics {
             drawLine(vert, prevVert);
             prevVert = vert;
         }
+    }
+
+    public void setFont(String family, int style, int size) {
+        Font f = new Font(family, style, size);
+        graphics.setFont(f);
+    }
+
+    public void setFontFamily(String family) {
+        Font f = graphics.getFont();
+        setFont(family, f.getStyle(), f.getSize());
+    }
+
+    public void setFontStyle(int style) {
+        Font f = graphics.getFont();
+        setFont(f.getFamily(), style, f.getSize());
+    }
+
+    public void setFontSize(int size) {
+        Font f = graphics.getFont();
+        setFont(f.getFamily(), f.getStyle(), size);
+    }
+
+    public void drawText(Color col, Vec2 pos, int size, String str) {
+        setFontSize(size);
+        drawText(col, pos, str);
+    }
+
+    public void drawText(Color col, Vec2 pos, String str) {
+        setColour(col);
+        drawText(pos, str);
+    }
+
+    public void drawText(Vec2 pos, String str) {
+        graphics.drawString(str, (int) pos.x, (int) pos.y + graphics.getFont().getSize());  // place at top left
     }
 
     public void setColour(Color col) {
