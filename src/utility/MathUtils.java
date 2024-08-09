@@ -25,6 +25,10 @@ public class MathUtils {
         return nanoSecs / 1_000_000_000.0;
     }
 
+    public static double millisToSecond(double milliseconds) {
+        return milliseconds / 1_000.0;
+    }
+
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 

@@ -19,7 +19,8 @@ import java.util.List;
 
 public class Game {
     public int frameCounter = 0;
-    public double timeStarted;  // milliseconds
+    public double timeStarted = 0;  // in milliseconds
+    public int secondsElapsed = 0;
 
     public boolean running = false;
     public boolean optimiseTimeStepper = true;  // recommended if fps < 200
@@ -90,7 +91,7 @@ public class Game {
         canvasSurface.fill(Constants.BG_COL);  // before rendering
 
         mainScene.render(canvasSurface);
-        canvasSurface.drawText(Color.WHITE, new Vec2(), 10, "abcdefghijklmnopqrstuvwxyz1234567890");
+        canvasSurface.drawText(Color.RED, new Vec2(), "abcdefghijklmnopqrstuvwxyz1234567890");
 
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }
@@ -98,10 +99,16 @@ public class Game {
     /** returns time taken in seconds */
     public double mainLoop(double dt) {
         double tStart = System.nanoTime();
+        frameCounter++;
 
-        double fps = ++frameCounter / ((System.currentTimeMillis() - timeStarted) / 1_000);
-        String sFps = String.valueOf(MathUtils.round(fps, 1));
-        window.setTitle(String.format("%s (%s fps)", Constants.WINDOW_NAME, sFps));
+        // update fps count every second
+        int newSeconds = (int) Math.floor(MathUtils.millisToSecond(System.currentTimeMillis()) - MathUtils.millisToSecond(timeStarted));
+        if (newSeconds != secondsElapsed) {
+            String sFps = String.valueOf(MathUtils.round(frameCounter, 1));
+            window.setTitle(String.format("%s (%s fps)", Constants.WINDOW_NAME, sFps));
+            secondsElapsed = newSeconds;
+            frameCounter = 0;  // so frame counter doesn't pass max int value
+        }
 
         events();
         update(dt);

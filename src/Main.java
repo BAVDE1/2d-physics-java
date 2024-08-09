@@ -35,12 +35,12 @@ public class Main {
     }
 
     /**
-     * Proper, accurate time stepper.
+     * Proper time stepper.
      * if game has optimised boolean toggled, thread sleeps for half of dt once stepped.
      */
     public static Thread newTimeStepper(double dt, Game game) {
         return new Thread() {
-            final double halfDt = dt * 0.5;
+            final double halfDt = dt * 0.5;  // in seconds
 
             double accumulator = 0;
             double lastFrame = System.nanoTime();
@@ -56,7 +56,7 @@ public class Main {
                         accumulator -= dt;
 
                         try {
-                            double loopTime = game.mainLoop(dt);
+                            double loopTime = game.mainLoop(dt);  // in seconds
                             if (game.optimiseTimeStepper && accumulator + loopTime < halfDt) {  // only sleep if there is enough time
                                 Thread.sleep((long) Math.floor(halfDt * 1_000));  // give it a little break *-*
                             }
