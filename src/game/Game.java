@@ -1,8 +1,8 @@
 package src.game;
 
 import src.Main;
+import src.game.objects.Body;
 import src.game.objects.Circle;
-import src.game.objects.Polygon;
 import src.game.objects.SquarePoly;
 import src.window.*;
 import src.utility.MathUtils;
@@ -14,8 +14,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
     public int frameCounter = 0;
@@ -31,6 +29,8 @@ public class Game {
     CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE);
     Surface finalSurface = new Surface(Constants.SCALED_SIZE);
 
+    Body holdingObj;
+
     public Game() {
         window.init(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
     }
@@ -44,13 +44,24 @@ public class Game {
             timeStarted = System.currentTimeMillis();
             timeStepper.start();
 
-            Circle c = new Circle(new Vec2(10, 10), 10);
-            SquarePoly sp = new SquarePoly(new Vec2(50, 10), new Dimension(10, 30));
-            src.game.objects.Polygon p = new Polygon(new Vec2(30, 50), new ArrayList<>(List.of(new Vec2(), new Vec2(15, 0), new Vec2(0, 20))));
+            SquarePoly g = new SquarePoly(new Vec2(50, 250), true, new Dimension(400, 20));
+            SquarePoly l = new SquarePoly(new Vec2(50, 100), true, new Dimension(20, 150));
+            mainScene.objectsGroup.add(g);
+            mainScene.objectsGroup.add(l);
+
+            Circle c = new Circle(new Vec2(200, 0), 20);
             mainScene.objectsGroup.add(c);
-            mainScene.objectsGroup.add(sp);
-            mainScene.objectsGroup.add(p);
         }
+    }
+
+    /** Reduce natural velocity and replace with a mouse force */
+    private void holdObj() {
+        Vec2 force = window.getScaledMousePos().sub(holdingObj.pos);
+        force.clampSelf(Constants.MAX_MOUSE_FORCE.negate(), Constants.MAX_MOUSE_FORCE);
+        force.mulSelf(holdingObj.mass);
+
+        holdingObj.velocity.mulSelf(new Vec2(.85));  // reduce natural velocity
+        holdingObj.applyForce(force.mul((holdingObj.invMass * 100)));
     }
 
     private void windowEvent(int type, WindowEvent we) {
@@ -60,7 +71,22 @@ public class Game {
         }
     }
 
-    private void mouseEvent(int type, MouseEvent me) {}
+    private void mouseEvent(int type, MouseEvent me) {
+        if (type == Event.MOUSE_PRESSED) {
+            if (holdingObj == null) {  // probably don't need this but whatever
+                for (Body obj : mainScene.objectsGroup.objects) {
+                    if (!obj.isStatic && obj.isPointIn(window.getScaledMousePos())) {
+                        holdingObj = obj;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (type == Event.MOUSE_RELEASED) {
+            if (holdingObj != null) holdingObj = null;
+        }
+    }
 
     private void keyEvent(int type, KeyEvent ke) {
         if (type == Event.KEY_PRESSED) {
@@ -84,6 +110,10 @@ public class Game {
     }
 
     private void update(double dt) {
+        if (holdingObj != null) {
+            holdObj();
+        }
+
         mainScene.update(dt);
     }
 
@@ -91,7 +121,10 @@ public class Game {
         canvasSurface.fill(Constants.BG_COL);  // before rendering
 
         mainScene.render(canvasSurface);
-        canvasSurface.drawText(Color.RED, new Vec2(), "abcdefghijklmnopqrstuvwxyz1234567890");
+
+        canvasSurface.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
+        canvasSurface.drawText(Color.RED, new Vec2(0, 15), mainScene.objectsGroup.toString());
+        canvasSurface.drawText(Color.RED, new Vec2(0, 30), window.getScaledMousePos().toString());
 
         finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
     }

@@ -140,4 +140,9 @@ public class Group<T> {
         }
         return hasChanged;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Group(size:%s, layers:%s)", objects.size(), layerValues.size());
+    }
 }

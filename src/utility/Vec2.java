@@ -13,6 +13,10 @@ public class Vec2 {
         this.y = y;
     }
 
+    public Vec2(double d) {
+        this(d, d);
+    }
+
     public Vec2(Vec2 vec2) {
         this(vec2.x, vec2.y);
     }
@@ -23,6 +27,13 @@ public class Vec2 {
 
     public Vec2() {
         this(0, 0);
+    }
+
+    public Vec2(Point point) {
+        if (point == null) {
+            point = new Point(0, 0);
+        }
+        this(point.x, point.y);
     }
 
     public void set(Vec2 vec) {

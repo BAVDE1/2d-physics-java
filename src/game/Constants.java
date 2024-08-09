@@ -17,6 +17,7 @@ public class Constants {
     public static final double BIAS_ABSOLUTE = 0.01;
     public static final int RESOLVE_ITERATIONS = 8;  // higher = more stable but less performant
 
+    public static final Vec2 MAX_MOUSE_FORCE = new Vec2(60);
     public static final Vec2 GRAVITY = new Vec2(0, 200);
     public static final double RESTING = GRAVITY.mul(DT).lengthSq() + EPSILON;
 

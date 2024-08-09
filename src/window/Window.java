@@ -1,5 +1,6 @@
 package src.window;
 
+import src.game.Constants;
 import src.utility.Vec2;
 
 import javax.swing.*;
@@ -16,7 +17,6 @@ public class Window {
     public ArrayList<Event<?>> eventQueue = new ArrayList<>();
 
     public Dimension size;
-    public double scale = 1;
 
     public Window() {}
     public Window(Color bg_col) {
@@ -104,6 +104,23 @@ public class Window {
 
     public void setTitle(String str) {
         frame.setTitle(str);
+    }
+
+    public Vec2 getWindowPos() {
+        return new Vec2(frame.getLocation());
+    }
+
+    /** Returns mouse position relative to top left of window's screen */
+    public Vec2 getMousePos() {
+        Vec2 globalPos = new Vec2(MouseInfo.getPointerInfo().getLocation());
+        Vec2 mousePos = globalPos.sub(getWindowPos());
+        mousePos.y -= frame.getHeight() - size.height;
+        return mousePos;
+    }
+
+    /** Returns mouse position scaled by the resolution multiplier */
+    public Vec2 getScaledMousePos() {
+        return getMousePos().div(Constants.RES_MUL);
     }
 
     public JFrame getRawFrame() {
