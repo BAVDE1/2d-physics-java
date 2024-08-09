@@ -51,16 +51,21 @@ public class Game {
 
             Circle c = new Circle(new Vec2(200, 0), 20);
             mainScene.objectsGroup.add(c);
+            SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(20, 150));
+            mainScene.objectsGroup.add(sp);
         }
     }
 
     /** Reduce natural velocity and replace with a mouse force */
     private void holdObj() {
         Vec2 force = window.getScaledMousePos().sub(holdingObj.pos);
-        force.clampSelf(Constants.MAX_MOUSE_FORCE.negate(), Constants.MAX_MOUSE_FORCE);
+        if (force.length() > Constants.MAX_MOUSE_FORCE) {
+            force.normaliseSelf();
+            force.mulSelf(Constants.MAX_MOUSE_FORCE);
+        }
         force.mulSelf(holdingObj.mass);
 
-        holdingObj.velocity.mulSelf(new Vec2(.85));  // reduce natural velocity
+        holdingObj.velocity.mulSelf(.85);  // reduce natural velocity
         holdingObj.applyForce(force.mul((holdingObj.invMass * 100)));
     }
 

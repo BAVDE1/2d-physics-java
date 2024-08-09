@@ -79,7 +79,7 @@ public class Vec2 {
         double lsq = out.lengthSq();
         if (lsq > Constants.EPSILON_SQ) {
             double inv_len = 1 / Math.sqrt(out.lengthSq());
-            out.mul(inv_len);
+            out.mulSelf(inv_len);
         }
         return out;
     }

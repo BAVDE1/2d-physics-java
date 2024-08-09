@@ -102,6 +102,10 @@ public class Window {
         System.exit(0);
     }
 
+    public Insets getInsets() {
+        return frame.getInsets();
+    }
+
     public void setTitle(String str) {
         frame.setTitle(str);
     }
@@ -112,10 +116,9 @@ public class Window {
 
     /** Returns mouse position relative to top left of window's screen */
     public Vec2 getMousePos() {
-        Vec2 globalPos = new Vec2(MouseInfo.getPointerInfo().getLocation());
-        Vec2 mousePos = globalPos.sub(getWindowPos());
-        mousePos.y -= frame.getHeight() - size.height;
-        return mousePos;
+        Vec2 pos = new Vec2(MouseInfo.getPointerInfo().getLocation());
+        pos.subSelf(getWindowPos());
+        return pos.sub(new Vec2(getInsets().left, getInsets().top));
     }
 
     /** Returns mouse position scaled by the resolution multiplier */

@@ -108,8 +108,8 @@ public class Manifold {
         for (int i = 0; i < cCount; i++) {
             Vec2 cp = cPoints[i];  // contact point... it stands for contact point
             if (!cp.equals(new Vec2())) {
-                cSurface.fillRect(Color.RED, cp, new Dimension(1, 1));  // point
                 cSurface.drawLine(Color.YELLOW, cp, cp.add(normal.mul(2)));  // 2 pixel long line
+                cSurface.fillRect(Color.RED, cp, new Dimension(1, 1));  // point
             }
         }
     }
