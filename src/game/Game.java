@@ -51,7 +51,7 @@ public class Game {
 
             Circle c = new Circle(new Vec2(200, 0), 20);
             mainScene.objectsGroup.add(c);
-            SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(20, 150));
+            SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(200, 150));
             mainScene.objectsGroup.add(sp);
         }
     }
@@ -59,9 +59,11 @@ public class Game {
     /** Reduce natural velocity and replace with a mouse force */
     private void holdObj() {
         Vec2 force = window.getScaledMousePos().sub(holdingObj.pos);
-        if (force.length() > Constants.MAX_MOUSE_FORCE) {
-            force.normaliseSelf();
-            force.mulSelf(Constants.MAX_MOUSE_FORCE);
+        double maxF = Constants.MAX_MOUSE_FORCE * (Constants.FPS / 60.);
+        double len = force.length();
+        if (len > maxF) {
+            force.divSelf(len);
+            force.mulSelf(maxF);
         }
         force.mulSelf(holdingObj.mass);
 
