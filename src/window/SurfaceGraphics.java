@@ -9,6 +9,7 @@ import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.util.Map;
+import java.util.Objects;
 
 public abstract class SurfaceGraphics {
     public boolean initialised = false;
@@ -142,16 +143,19 @@ public abstract class SurfaceGraphics {
 
     public void setFontFamily(String family) {
         Font f = graphics.getFont();
+        if (Objects.equals(f.getFamily(), family)) return;
         setFont(family, f.getStyle(), f.getSize());
     }
 
     public void setFontStyle(int style) {
         Font f = graphics.getFont();
+        if (Objects.equals(f.getStyle(), style)) return;
         setFont(f.getFamily(), style, f.getSize());
     }
 
     public void setFontSize(int size) {
         Font f = graphics.getFont();
+        if (Objects.equals(f.getSize(), size)) return;
         setFont(f.getFamily(), f.getStyle(), size);
     }
 
@@ -170,6 +174,7 @@ public abstract class SurfaceGraphics {
     }
 
     public void setColour(Color col) {
+        if (getColour() == col) return;
         graphics.setColor(col);
     }
 

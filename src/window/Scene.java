@@ -76,4 +76,9 @@ public class Scene {
             man.render(cSurface);
         }
     }
+
+    @Override
+    public String toString() {
+        return String.format("Scene(%s, collisions=%s)", objectsGroup, collisions.size());
+    }
 }

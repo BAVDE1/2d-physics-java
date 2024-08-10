@@ -49,7 +49,7 @@ public class Game {
             mainScene.objectsGroup.add(g);
             mainScene.objectsGroup.add(l);
 
-            Circle c = new Circle(new Vec2(200, 0), 20);
+            Circle c = new Circle(new Vec2(200, 0), 10);
             mainScene.objectsGroup.add(c);
             SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(200, 150));
             mainScene.objectsGroup.add(sp);
@@ -129,11 +129,10 @@ public class Game {
 
         mainScene.render(canvasSurface);
 
-        canvasSurface.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
-        canvasSurface.drawText(Color.RED, new Vec2(0, 15), mainScene.objectsGroup.toString());
-        canvasSurface.drawText(Color.RED, new Vec2(0, 30), window.getScaledMousePos().toString());
+        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering canvas
 
-        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering
+        finalSurface.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
+        finalSurface.drawText(Color.RED, new Vec2(0, 15), mainScene.toString());
     }
 
     /** returns time taken in seconds */

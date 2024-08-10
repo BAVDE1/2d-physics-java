@@ -11,7 +11,7 @@ public class Manifold {
     private final Body a;
     private final Body b;
 
-    public Vec2 normal;
+    public Vec2 normal = new Vec2();
     public double penetration;
 
     public int cCount;

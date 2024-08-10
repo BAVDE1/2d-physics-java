@@ -35,6 +35,6 @@ public class Constants {
     public static final int MIN_VERTEX_COUNT = 3;
     public static final int MAX_VERTEX_COUNT = 32;
 
-    public static final Font DEFAULT_FONT = new Font(Font.DIALOG_INPUT, Font.PLAIN, 10);
+    public static final Font DEFAULT_FONT = new Font(Font.DIALOG_INPUT, Font.PLAIN, 15);
     public static final Color BG_COL = new Color(0, 10, 5);
 }
