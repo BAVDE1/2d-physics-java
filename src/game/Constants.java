@@ -29,12 +29,13 @@ public class Constants {
     public static final Dimension BASE_SIZE = new Dimension(BASE_WIDTH, BASE_HEIGHT);
     public static final Dimension SCALED_SIZE = new Dimension(BASE_WIDTH * RES_MUL, BASE_HEIGHT * RES_MUL);
 
+    public static final Font DEFAULT_FONT = new Font(Font.DIALOG_INPUT, Font.PLAIN, 8 * RES_MUL);
     public static final boolean DEFAULT_STATIC = false;
     public static final int DEFAULT_LAYER = 10;
 
     public static final int MIN_VERTEX_COUNT = 3;
     public static final int MAX_VERTEX_COUNT = 32;
 
-    public static final Font DEFAULT_FONT = new Font(Font.DIALOG_INPUT, Font.PLAIN, 15);
     public static final Color BG_COL = new Color(0, 10, 5);
+    public static final Color TRANSPARENT = new Color(255, 255, 255, 0);
 }

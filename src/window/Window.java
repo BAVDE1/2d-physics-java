@@ -52,7 +52,7 @@ public class Window {
 
     private void addFinalSurface(Surface finalSurface) {
         if (!initialised) {
-            frame.getContentPane().add(finalSurface.getRawPanel(), BorderLayout.CENTER);
+            frame.getContentPane().add(finalSurface.getRawPanel(), BorderLayout.CENTER);  // do before packing
             frame.pack();
             finalSurface.init();  // init after packing so surface graphics are current
         }
@@ -124,6 +124,10 @@ public class Window {
     /** Returns mouse position scaled by the resolution multiplier */
     public Vec2 getScaledMousePos() {
         return getMousePos().div(Constants.RES_MUL);
+    }
+
+    public void repaint() {
+        frame.repaint();
     }
 
     public JFrame getRawFrame() {

@@ -3,6 +3,7 @@ package src.game;
 import src.Main;
 import src.game.objects.Body;
 import src.game.objects.Circle;
+import src.game.objects.Polygon;
 import src.game.objects.SquarePoly;
 import src.window.*;
 import src.utility.MathUtils;
@@ -14,6 +15,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
     public int frameCounter = 0;
@@ -26,8 +30,9 @@ public class Game {
 
     Scene mainScene = new Scene();
 
-    CanvasSurface canvasSurface = new CanvasSurface(Constants.BASE_SIZE);
-    Surface finalSurface = new Surface(Constants.SCALED_SIZE);
+    Surface finalSurface = new Surface(this, Constants.SCALED_SIZE);
+    CanvasSurface mainCanvas = new CanvasSurface(Constants.BASE_SIZE, Constants.BG_COL);
+    CanvasSurface uiCanvas = new CanvasSurface(Constants.SCALED_SIZE, Constants.TRANSPARENT);
 
     Body holdingObj;
 
@@ -124,15 +129,19 @@ public class Game {
         mainScene.update(dt);
     }
 
-    private void render() {
-        canvasSurface.fill(Constants.BG_COL);  // before rendering
+    private void renderCanvases() {
+        mainCanvas.clear();
+        uiCanvas.clear();
 
-        mainScene.render(canvasSurface);
+        mainScene.render(mainCanvas);
+        uiCanvas.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
+        uiCanvas.drawText(Color.RED, new Vec2(0, 15), mainScene.toString());
+    }
 
-        finalSurface.blitScaled(canvasSurface, Constants.RES_MUL);  // finish rendering canvas
-
-        finalSurface.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
-        finalSurface.drawText(Color.RED, new Vec2(0, 15), mainScene.toString());
+    /** Called in Surface so proper graphics is used */
+    public void renderSurface(Graphics g) {
+        finalSurface.blitScaled(g, mainCanvas);
+        finalSurface.blit(g, uiCanvas);
     }
 
     /** returns time taken in seconds */
@@ -151,7 +160,8 @@ public class Game {
 
         events();
         update(dt);
-        render();
+        renderCanvases();
+        window.repaint();  // calls paintComponent on all surfaces added to window
         return MathUtils.nanoToSecond(System.nanoTime() - tStart);
     }
 }

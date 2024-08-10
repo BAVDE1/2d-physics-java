@@ -1,11 +1,15 @@
 package src.window;
 
+import src.game.Constants;
+import src.game.Game;
 import src.utility.Vec2;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Surface extends SurfaceGraphics {
+public class Surface {
+    public boolean initialised = false;
+    private final Game parent;
     private final JPanel panel = new JPanel() {
         @Override
         public Dimension getPreferredSize() {
@@ -14,56 +18,63 @@ public class Surface extends SurfaceGraphics {
             }
             return size;
         }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            parent.renderSurface(g);
+        }
     };
 
     private boolean opaqueBg = false;
-    public Vec2 pos = new Vec2();
     public Dimension size;
 
-    public Surface(Dimension size) {
-        super(size);
+    public Surface(Game parent, Dimension size) {
         this.size = size;
-    }
-
-    public Surface(Dimension size, Vec2 pos) {
-        super(size);
-        this.size = size;
-        this.pos = pos;
+        this.parent = parent;
     }
 
     public void init() {
         if (!initialised) {
             panel.setLayout(new BorderLayout());
-            panel.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
+            panel.setBounds(0, 0, size.width, size.height);
             panel.setOpaque(opaqueBg);
 
-            init(panel.getGraphics());
+            initialised = true;
         }
     }
 
-    public void blit(CanvasSurface canvas) {
-        blit(canvas.buffImg, new Vec2());
+    public void unInit() {
+        initialised = false;
     }
 
-    public void blit(CanvasSurface canvas, Vec2 pos) {
-        blit(canvas.buffImg, pos);
+    public void blit(Graphics g, CanvasSurface canvas) {
+        blit(g, canvas.buffImg, new Vec2());
     }
 
-    public void blit(Image img) {
-        blit(img, new Vec2());
+    public void blit(Graphics g, CanvasSurface canvas, Vec2 pos) {
+        blit(g, canvas.buffImg, pos);
     }
 
-    public void blit(Image img, Vec2 pos) {
-        drawImage(img, (int) pos.x, (int) pos.y, this.panel);
+    public void blit(Graphics g, Image img) {
+        blit(g, img, new Vec2());
     }
 
-    public void blitScaled(CanvasSurface canvas, int scale) {
-        blitScaled(canvas, scale, new Vec2());
+    public void blit(Graphics g, Image img, Vec2 pos) {
+        g.drawImage(img, (int) pos.x, (int) pos.y, this.panel);
     }
 
-    public void blitScaled(CanvasSurface canvas, int scale, Vec2 pos) {
+    public void blitScaled(Graphics g, CanvasSurface canvas) {
+        blitScaled(g, canvas, Constants.RES_MUL, new Vec2());
+    }
+
+    public void blitScaled(Graphics g, CanvasSurface canvas, int scale) {
+        blitScaled(g, canvas, scale, new Vec2());
+    }
+
+    public void blitScaled(Graphics g, CanvasSurface canvas, int scale, Vec2 pos) {
         Image img = canvas.getScaledImg(canvas.size.width * scale, canvas.size.height * scale);
-        blit(img, pos);
+        blit(g, img, pos);
     }
 
     public void setOpaqueBg(boolean isOpaque) {
@@ -78,6 +89,6 @@ public class Surface extends SurfaceGraphics {
     }
 
     public String toString() {
-        return String.format("Surface(pos=%s, size=%s, initialised=%s)", pos, size, initialised);
+        return String.format("Surface(size=%s, initialised=%s)", size, initialised);
     }
 }

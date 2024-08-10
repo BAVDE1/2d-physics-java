@@ -3,20 +3,20 @@ package src.window;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class CanvasSurface extends SurfaceGraphics {
+public class CanvasSurface extends CanvasGraphics {
     public BufferedImage buffImg;
     public Dimension size;
 
-    public CanvasSurface(Dimension size) {
+    public CanvasSurface(Dimension size, Color bgCol) {
         super(size);
         this.buffImg = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
         this.size = size;
-        init();
+        init(bgCol);
     }
 
-    public void init() {
+    public void init(Color bgCol) {
         if (!initialised) {
-            init(buffImg.getGraphics());
+            init(buffImg.getGraphics(), bgCol);
         }
     }
 

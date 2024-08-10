@@ -1,5 +1,6 @@
 package src.game.objects;
 
+import src.game.Constants;
 import src.window.CanvasSurface;
 import src.utility.Mat2;
 import src.utility.MathUtils;
@@ -34,6 +35,10 @@ public class Polygon extends Body {
     void init(ArrayList<Vec2> vertices) {
         this.vertices = vertices;
         vCount = vertices.size();
+
+        if (vCount < Constants.MIN_VERTEX_COUNT || vCount > Constants.MAX_VERTEX_COUNT) {
+            throw new ArrayStoreException(String.format("Attempting to create polygon with too many or too few vertices (%s)", vCount));
+        }
 
         for (int i = 0; i < vCount; i++) {
             Vec2 face = getVert(i + 1).sub(vertices.get(i));

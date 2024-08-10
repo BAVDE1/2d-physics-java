@@ -5,26 +5,26 @@ import src.game.objects.Polygon;
 import src.utility.Vec2;
 
 import java.awt.*;
-import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.Map;
 import java.util.Objects;
 
-public abstract class SurfaceGraphics {
+public abstract class CanvasGraphics {
     public boolean initialised = false;
-    private Graphics graphics;
+    private Graphics2D graphics;
     private final Dimension size;
 
-    public SurfaceGraphics(Dimension size) {
+    public CanvasGraphics(Dimension size) {
         this.size = size;
     }
 
-    public void init(Graphics graphics) {
+    public void init(Graphics graphics, Color bgCol) {
         if (!initialised) {
             initialised = true;
-            this.graphics = graphics;
+            this.graphics = (Graphics2D) graphics;
+
             this.graphics.setFont(Constants.DEFAULT_FONT);
+            this.graphics.setBackground(bgCol);
         }
         checkInit();
     }
@@ -44,6 +44,11 @@ public abstract class SurfaceGraphics {
 
     public void fill() {
         graphics.fillRect(0, 0, size.width, size.height);
+    }
+
+    /** Clears to the colour of the background */
+    public void clear() {
+        graphics.clearRect(0, 0, size.width, size.height);
     }
 
     public void drawLine(Color col, Vec2 from, Vec2 to) {
