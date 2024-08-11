@@ -8,8 +8,8 @@ import src.utility.Vec2;
 import java.awt.*;
 
 public class Manifold {
-    private final Body a;
-    private final Body b;
+    public final Body a;
+    public final Body b;
 
     public Vec2 normal = new Vec2();
     public double penetration;

@@ -5,11 +5,13 @@ import src.game.objects.Body;
 import src.game.Constants;
 import src.utility.Group;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Scene {
     public final Group<Body> objectsGroup = new Group<>();
     private final ArrayList<Manifold> collisions = new ArrayList<>();
+    private final ArrayList<Manifold> allManifoldsGenerated = new ArrayList<>();
 
     /** Iterate over all objects given and check if they're colliding.
      * If so, fill manifold values & add it to collision list */
@@ -18,16 +20,13 @@ public class Scene {
             Body a = objectsGroup.objects.get(ia);
             for (int ib = ia + 1; ib < objectsGroup.objects.size(); ib ++) {  // prevent duplicate checks
                 Body b = objectsGroup.objects.get(ib);
-                if (a.shouldIgnoreCollision(b)) {
-                    continue;
-                }
+                if (a.shouldIgnoreCollision(b)) continue;
 
                 Manifold man = new Manifold(a, b);
                 man.solveCollision();
 
-                if (man.cCount > 0) {
-                    collisions.add(man);
-                }
+                if (man.cCount > 0) collisions.add(man);
+                allManifoldsGenerated.add(man);
             }
         }
     }
@@ -35,6 +34,7 @@ public class Scene {
     /** Updates all objects in scene group */
     public void update(double dt) {
         collisions.clear();
+        allManifoldsGenerated.clear();
         initCollisions();
 
         // apply rest of velocity from last frame
@@ -69,13 +69,11 @@ public class Scene {
     }
 
     public void render(CanvasSurface cSurface) {
-        for (Body obj : objectsGroup.objects) {
-            obj.render(cSurface);
-        }
+        for (Body obj : objectsGroup.objects) obj.render(cSurface);
 
-        for (Manifold man : collisions) {
-            man.render(cSurface);
-        }
+        // DEBUG RENDERING
+        for (Manifold man : allManifoldsGenerated) cSurface.drawLine(Color.BLUE, man.a.pos, man.b.pos);
+        for (Manifold man : collisions) man.render(cSurface);
     }
 
     @Override

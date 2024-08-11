@@ -52,6 +52,8 @@ public class Game {
 
             Circle c = new Circle(new Vec2(200, 0), 20);
             mainScene.objectsGroup.add(c);
+            Circle c2 = new Circle(new Vec2(200, 0), 15);
+            mainScene.objectsGroup.add(c2);
             SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(200, 150));
             mainScene.objectsGroup.add(sp);
         }
@@ -118,10 +120,7 @@ public class Game {
     }
 
     private void update(double dt) {
-        if (holdingObj != null) {
-            holdObj();
-        }
-
+        if (holdingObj != null) holdObj();
         mainScene.update(dt);
     }
 

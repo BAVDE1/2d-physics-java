@@ -1,5 +1,6 @@
 package src.game.objects;
 
+import src.utility.MathUtils;
 import src.window.CanvasSurface;
 import src.game.Constants;
 import src.utility.Vec2;
@@ -90,7 +91,8 @@ public abstract class Body {
     public boolean shouldIgnoreCollision(Body other) {
         boolean bothStatic = isStatic && other.isStatic;
         boolean diffLayer = layer != other.layer;
-        return bothStatic || diffLayer;
+        boolean tooFar = MathUtils.tooFarToCollide(this, other);
+        return bothStatic || diffLayer || tooFar;
     }
 
     @Override

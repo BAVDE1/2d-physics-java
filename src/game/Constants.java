@@ -38,6 +38,6 @@ public class Constants {
 
     public static final Color BG_COL = new Color(0, 10, 5);
     public static final Color LIGHTER_BG = BG_COL.brighter().brighter().brighter();
-    public static final Color T_LIGHTER_BG = new Color(LIGHTER_BG.getRed(), LIGHTER_BG.getGreen(), LIGHTER_BG.getBlue(), 100);
+    public static final Color T_LIGHTER_BG = new Color(LIGHTER_BG.getRed(), LIGHTER_BG.getGreen(), LIGHTER_BG.getBlue(), 150);
     public static final Color TRANSPARENT = new Color(255, 255, 255, 0);
 }

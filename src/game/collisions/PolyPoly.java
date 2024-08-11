@@ -11,11 +11,6 @@ public class PolyPoly implements Collision {
         Polygon p1 = (Polygon) a;
         Polygon p2 = (Polygon) b;
 
-        // not close enough to collide, ignore
-        if (MathUtils.tooFarToCollide(p1, p2)) {
-            return false;
-        }
-
         MathUtils.IntClass intStorage = new MathUtils.IntClass();
         MathUtils.DoubleClass doubleStorage = new MathUtils.DoubleClass();
 

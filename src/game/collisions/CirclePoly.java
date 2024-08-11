@@ -12,11 +12,6 @@ public class CirclePoly implements Collision {
         Circle c = (Circle) a;
         Polygon p = (Polygon) b;
 
-        // not close enough to collide, ignore
-        if (MathUtils.tooFarToCollide(c, p)) {
-            return false;
-        }
-
         Vec2 centre = p.mat2.transpose().mul(c.pos.sub(p.pos));  // circle center into polygon model space
 
         // find the best separation within radius
