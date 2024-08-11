@@ -58,6 +58,7 @@ public abstract class Body {
         }
     }
 
+    /** Update velocity with natural forces */
     public void updateVelocity(double dt) {
         if (!isStatic) {
             double dtH = dt * 0.5;
