@@ -3,7 +3,6 @@ package src.game;
 import src.Main;
 import src.game.objects.Body;
 import src.game.objects.Circle;
-import src.game.objects.Polygon;
 import src.game.objects.SquarePoly;
 import src.window.*;
 import src.utility.MathUtils;
@@ -15,9 +14,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Game {
     public int frameCounter = 0;
@@ -30,14 +26,14 @@ public class Game {
 
     Scene mainScene = new Scene();
 
-    Surface finalSurface = new Surface(this, Constants.SCALED_SIZE);
+    Screen finalScreen = new Screen(this, Constants.SCALED_SIZE);
     CanvasSurface mainCanvas = new CanvasSurface(Constants.BASE_SIZE, Constants.BG_COL);
     CanvasSurface uiCanvas = new CanvasSurface(Constants.SCALED_SIZE, Constants.TRANSPARENT);
 
     Body holdingObj;
 
     public Game() {
-        window.init(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalSurface);
+        window.init(Constants.WINDOW_NAME, Constants.SCALED_SIZE, finalScreen);
     }
 
     public void start() {
@@ -54,7 +50,7 @@ public class Game {
             mainScene.objectsGroup.add(g);
             mainScene.objectsGroup.add(l);
 
-            Circle c = new Circle(new Vec2(200, 0), 10);
+            Circle c = new Circle(new Vec2(200, 0), 20);
             mainScene.objectsGroup.add(c);
             SquarePoly sp = new SquarePoly(new Vec2(200, 0), new Dimension(200, 150));
             mainScene.objectsGroup.add(sp);
@@ -138,10 +134,10 @@ public class Game {
         uiCanvas.drawText(Color.RED, new Vec2(0, 15), mainScene.toString());
     }
 
-    /** Called in Surface so proper graphics is used */
-    public void renderSurface(Graphics g) {
-        finalSurface.blitScaled(g, mainCanvas);
-        finalSurface.blit(g, uiCanvas);
+    /** Called in Screen so proper graphics is used */
+    public void renderScreen(Graphics g) {
+        finalScreen.blitScaled(g, mainCanvas);
+        finalScreen.blit(g, uiCanvas);
     }
 
     /** returns time taken in seconds */

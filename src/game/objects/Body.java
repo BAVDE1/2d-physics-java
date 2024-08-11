@@ -71,11 +71,11 @@ public abstract class Body {
 
     public void update(double dt) {
         if (!isStatic) {
+            updateVelocity(dt);
+
             pos.addSelf(velocity.mul(dt));
             orientation += angularVelocity * dt;
             setOrient();
-
-            updateVelocity(dt);
         }
     }
 

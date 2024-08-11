@@ -7,7 +7,7 @@ import src.utility.Vec2;
 import javax.swing.*;
 import java.awt.*;
 
-public class Surface {
+public class Screen {
     public boolean initialised = false;
     private final Game parent;
     private final JPanel panel = new JPanel() {
@@ -22,14 +22,14 @@ public class Surface {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            parent.renderSurface(g);
+            parent.renderScreen(g);
         }
     };
 
     private boolean opaqueBg = false;
     public Dimension size;
 
-    public Surface(Game parent, Dimension size) {
+    public Screen(Game parent, Dimension size) {
         this.size = size;
         this.parent = parent;
     }

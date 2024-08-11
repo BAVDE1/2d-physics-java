@@ -11,7 +11,7 @@ public class Constants {
     public static final double INF_MASS = -1;
     public static final double EPSILON = 0.0001;
     public static final double EPSILON_SQ = EPSILON * EPSILON;
-    public static final double PENETRATION_ALLOWANCE = 0.05;
+    public static final double PENETRATION_ALLOWANCE = 0.05;  // slop
     public static final double POSITIONAL_CORRECTION = 0.5;  // 20% - 80%
     public static final double BIAS_RELATIVE = 0.95;
     public static final double BIAS_ABSOLUTE = 0.01;

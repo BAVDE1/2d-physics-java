@@ -11,7 +11,8 @@ public class Scene {
     public final Group<Body> objectsGroup = new Group<>();
     private final ArrayList<Manifold> collisions = new ArrayList<>();
 
-    /** Iterate over all objects given and check if they're colliding. If so, fill manifold values & add it to collision list */
+    /** Iterate over all objects given and check if they're colliding.
+     * If so, fill manifold values & add it to collision list */
     private void initCollisions() {
         for (int ia = 0; ia < objectsGroup.objects.size(); ia++) {
             Body a = objectsGroup.objects.get(ia);

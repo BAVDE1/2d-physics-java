@@ -30,8 +30,7 @@ public class Manifold {
     }
 
     public Vec2 getRelativeVel(Vec2 relA, Vec2 relB) {
-        return ((b.velocity.sub(relB.cross(b.angularVelocity))).sub(
-                (a.velocity.sub(relA.cross(a.angularVelocity)))));
+        return (b.velocity.sub(relB.cross(b.angularVelocity))).sub((a.velocity.sub(relA.cross(a.angularVelocity))));
     }
 
     public void resolveCollision() {

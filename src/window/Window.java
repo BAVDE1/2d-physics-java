@@ -23,16 +23,16 @@ public class Window {
         this.bgCol = bg_col;
     }
 
-    public void init(String windowName, Dimension size, Surface finalSurface) {
+    public void init(String windowName, Dimension size, Screen finalScreen) {
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
 
         Vec2 screenSize = new Vec2(screen.width, screen.height);
         Vec2 pos = screenSize.div(2).sub(Vec2.fromDim(size).div(2));
 
-        init(windowName, pos, size, finalSurface);
+        init(windowName, pos, size, finalScreen);
     }
 
-    public void init(String windowName, Vec2 pos, Dimension size, Surface finalSurface) {
+    public void init(String windowName, Vec2 pos, Dimension size, Screen finalScreen) {
         if (!initialised) {
             this.size = size;
 
@@ -42,7 +42,7 @@ public class Window {
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             frame.getContentPane().setBackground(bgCol);
 
-            addFinalSurface(finalSurface);
+            addFinalScreen(finalScreen);
             Listener.addWindowListeners(this);
 
             frame.setResizable(false);
@@ -50,22 +50,22 @@ public class Window {
         }
     }
 
-    private void addFinalSurface(Surface finalSurface) {
+    private void addFinalScreen(Screen finalScreen) {
         if (!initialised) {
-            frame.getContentPane().add(finalSurface.getRawPanel(), BorderLayout.CENTER);  // do before packing
+            frame.getContentPane().add(finalScreen.getRawPanel(), BorderLayout.CENTER);  // do before packing
             frame.pack();
-            finalSurface.init();  // init after packing so surface graphics are current
+            finalScreen.init();  // init after packing so surface graphics are current
         }
     }
 
-    public void addSurface(Surface surface) {
+    public void addSurface(Screen surface) {
         if (!surface.initialised) {
             frame.getContentPane().add(surface.getRawPanel(), BorderLayout.CENTER);
             surface.init();
         }
     }
 
-    public void removeSurface(Surface surface) {
+    public void removeSurface(Screen surface) {
         if (surface.initialised) {
             frame.remove(surface.getRawPanel());
             surface.unInit();

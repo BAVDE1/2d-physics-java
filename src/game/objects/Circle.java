@@ -47,7 +47,8 @@ public class Circle extends Body {
 
     @Override
     public void render(CanvasSurface cSurface) {
-        Vec2 rot = new Vec2(Math.cos(orientation) * radius, Math.sin(orientation) * radius);
+        double r = radius - 1;  // so its doesnt poke out
+        Vec2 rot = new Vec2(Math.cos(orientation) * r, Math.sin(orientation) * r);
 
         cSurface.drawCircle(colour, pos, radius);
         cSurface.drawLine(colour, pos, pos.add(rot));
