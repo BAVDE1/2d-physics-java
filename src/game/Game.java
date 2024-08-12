@@ -63,9 +63,9 @@ public class Game {
     private void holdObj() {
         Vec2 force = window.getScaledMousePos().sub(holdingObj.pos);
         double maxF = Constants.MAX_MOUSE_FORCE * (Constants.FPS / 60.);
-        double len = force.length();
-        if (len > maxF) {
-            force.divSelf(len);
+        double lenSq = force.lengthSq();
+        if (lenSq > maxF * maxF) {
+            force.divSelf(Math.sqrt(lenSq));
             force.mulSelf(maxF);
         }
         force.mulSelf(holdingObj.mass);

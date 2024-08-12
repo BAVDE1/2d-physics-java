@@ -72,7 +72,7 @@ public class Scene {
         for (Body obj : objectsGroup.objects) obj.render(cSurface);
 
         // DEBUG RENDERING
-        for (Manifold man : allManifoldsGenerated) cSurface.drawLine(Color.BLUE, man.a.pos, man.b.pos);
+        for (Manifold man : allManifoldsGenerated) cSurface.drawLine(new Color(0, 0, 255, 100), man.a.pos, man.b.pos);
         for (Manifold man : collisions) man.render(cSurface);
     }
 
