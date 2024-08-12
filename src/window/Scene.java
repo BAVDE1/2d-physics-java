@@ -68,12 +68,14 @@ public class Scene {
         }
     }
 
-    public void render(CanvasSurface cSurface) {
-        for (Body obj : objectsGroup.objects) obj.render(cSurface);
+    public void render(CanvasSurface cSurface, boolean debugMode) {
+        for (Body obj : objectsGroup.objects) obj.render(cSurface, debugMode);
 
         // DEBUG RENDERING
-        for (Manifold man : allManifoldsGenerated) cSurface.drawLine(new Color(0, 0, 255, 100), man.a.pos, man.b.pos);
-        for (Manifold man : collisions) man.render(cSurface);
+        if (debugMode) {
+            for (Manifold man : allManifoldsGenerated) cSurface.drawLine(new Color(0, 0, 255, 100), man.a.pos, man.b.pos);
+            for (Manifold man : collisions) man.render(cSurface);
+        }
     }
 
     @Override

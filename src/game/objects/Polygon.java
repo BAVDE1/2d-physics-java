@@ -156,8 +156,11 @@ public class Polygon extends Body {
     }
 
     @Override
-    public void render(CanvasSurface cSurface) {
-        cSurface.drawCircle(Constants.T_LIGHTER_BG, pos, (int) getRadius());
+    public void render(CanvasSurface cSurface, boolean debugMode) {
+        if (debugMode) {
+            cSurface.drawCircle(Constants.T_LIGHTER_BG, pos, (int) getRadius());
+        }
+
         cSurface.drawRect(colour, pos, new Dimension(0, 0));  // com
         cSurface.drawPolygon(colour, this);
     }

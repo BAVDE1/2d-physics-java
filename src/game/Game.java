@@ -22,6 +22,7 @@ public class Game {
 
     public boolean running = false;
     public boolean optimiseTimeStepper = true;  // recommended if fps < 200
+    public boolean debugMode = true;
     private final Window window = new Window(Constants.BG_COL);
 
     Scene mainScene = new Scene();
@@ -100,8 +101,12 @@ public class Game {
 
     private void keyEvent(int type, KeyEvent ke) {
         if (type == Event.KEY_PRESSED) {
-            if (ke.getKeyChar() == KeyEvent.VK_ESCAPE) {
+            int k = ke.getKeyCode();
+            if (k == KeyEvent.VK_ESCAPE) {
                 window.closeWindowSafe();
+            }
+            if (k == KeyEvent.VK_TAB) {
+                debugMode = !debugMode;
             }
         }
     }
@@ -124,16 +129,18 @@ public class Game {
         mainScene.update(dt);
     }
 
+    /** Render before screens */
     private void renderCanvases() {
         mainCanvas.clear();
         uiCanvas.clear();
 
-        mainScene.render(mainCanvas);
+        mainScene.render(mainCanvas, debugMode);
         uiCanvas.drawText(Color.RED, new Vec2(), holdingObj == null ? "---" : holdingObj.toString());
         uiCanvas.drawText(Color.RED, new Vec2(0, 15), mainScene.toString());
+        uiCanvas.drawText(Color.RED, new Vec2(0, Constants.SCALED_SIZE.height - 25), String.format("DEBUG: %s (tab)", debugMode));
     }
 
-    /** Called in Screen so proper graphics is used */
+    /** Called in Screen so proper graphics object is used */
     public void renderScreen(Graphics g) {
         finalScreen.blitScaled(g, mainCanvas);
         finalScreen.blit(g, uiCanvas);

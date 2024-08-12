@@ -41,6 +41,7 @@ public class Window {
             frame.getContentPane().setLayout(new GridLayout(1, 1));
             frame.setBounds((int) pos.x, (int) pos.y, size.width, size.height);
             frame.getContentPane().setBackground(bgCol);
+            frame.setFocusTraversalKeysEnabled(false);
 
             addFinalScreen(finalScreen);
             Listener.addWindowListeners(this);
