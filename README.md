@@ -8,3 +8,5 @@
   2. https://box2d.org/files/ErinCatto_ModelingAndSolvingConstraints_GDC2009.pdf
 
 box 2d https://github.com/erincatto/box2d
+
+radiance cascades: https://drive.google.com/file/d/1L6v1_7HY2X-LV3Ofb6oyTIxgEaP4LOI6/view
