@@ -18,71 +18,68 @@ public class PolyPoly implements Collision {
         findAxisPenetration(p1, p2, intStorage, doubleStorage);
         int aFaceInx = intStorage.value;
         double aPen = doubleStorage.value;
-        if (aPen < 0.0) {
+        if (aPen > 0.0) return false;
 
-            findAxisPenetration(p2, p1, intStorage, doubleStorage);
-            int bFaceInx = intStorage.value;
-            double bPen = doubleStorage.value;
-            if (bPen < 0.0) {
-                // polys are colliding, get collision values
-                boolean flip = !MathUtils.greaterThan(aPen, bPen);  // always a to b
+        findAxisPenetration(p2, p1, intStorage, doubleStorage);
+        int bFaceInx = intStorage.value;
+        double bPen = doubleStorage.value;
+        if (bPen > 0.0) return false;
 
-                Polygon rPoly = flip ? p2 : p1;  // reference
-                Polygon iPoly = flip ? p1 : p2;  // incident
-                int rInx = flip ? bFaceInx : aFaceInx;
+        // polys are colliding, get collision values
+        boolean flip = !MathUtils.greaterThan(aPen, bPen);  // always a to b
 
-                // get face vertices (in world space)
-                Vec2 iV1 = new Vec2();
-                Vec2 iV2 = new Vec2();
-                findIncidentFaceVertices(rPoly, iPoly, rInx, iV1, iV2);
-                Vec2 rV1 = rPoly.getOrientedVert(rInx);
-                Vec2 rV2 = rPoly.getOrientedVert(rInx + 1);
+        Polygon rPoly = flip ? p2 : p1;  // reference
+        Polygon iPoly = flip ? p1 : p2;  // incident
+        int rInx = flip ? bFaceInx : aFaceInx;
 
-                Vec2 sidePlaneNorm = (rV2.sub(rV1)).normaliseSelf();
-                Vec2 rFaceNorm = new Vec2(sidePlaneNorm.y, -sidePlaneNorm.x);  // orthogonal
+        // get face vertices (in world space)
+        Vec2 iV1 = new Vec2();
+        Vec2 iV2 = new Vec2();
+        findIncidentFaceVertices(rPoly, iPoly, rInx, iV1, iV2);
+        Vec2 rV1 = rPoly.getOrientedVert(rInx);
+        Vec2 rV2 = rPoly.getOrientedVert(rInx + 1);
 
-                // c distance from origin
-                double rC = rFaceNorm.dot(rV1);
-                double negSide = -sidePlaneNorm.dot(rV1);
-                double posSide = sidePlaneNorm.dot(rV2);
+        Vec2 sidePlaneNorm = (rV2.sub(rV1)).normaliseSelf();
+        Vec2 rFaceNorm = new Vec2(sidePlaneNorm.y, -sidePlaneNorm.x);  // orthogonal
 
-                // Clip incident face to reference face side planes
-                clipFaces(sidePlaneNorm.negate(), negSide, iV1, iV2, intStorage);  // intStorage holds clip amount
-                if (intStorage.value < 2) {
-                    return false;
-                }
-                clipFaces(sidePlaneNorm, posSide, iV1, iV2, intStorage);
-                if (intStorage.value < 2) {
-                    return false;
-                }
+        // c distance from origin
+        double rC = rFaceNorm.dot(rV1);
+        double negSide = -sidePlaneNorm.dot(rV1);
+        double posSide = sidePlaneNorm.dot(rV2);
 
-                // Keep points behind reference face
-                int cp = 0;  // clipped points behind reference face
-                double separation = rFaceNorm.dot(iV1) - rC;
-                if (separation <= 0) {
-                    m.cPoints[cp] = iV1.getClone();
-                    m.penetration = -separation;
-                    cp += 1;
-                }
+        // Clip incident face to reference face side planes
+        clipFaces(sidePlaneNorm.negate(), negSide, iV1, iV2, intStorage);  // intStorage holds clip amount
+        if (intStorage.value < 2) return false;
 
-                separation = rFaceNorm.dot(iV2) - rC;
-                if (separation <= 0) {
-                    m.cPoints[cp] = iV2.getClone();
-                    m.penetration += -separation;
-                    cp += 1;
+        clipFaces(sidePlaneNorm, posSide, iV1, iV2, intStorage);
+        if (intStorage.value < 2) return false;
 
-                    m.penetration /= cp;  //average
-                }
-                m.cCount = cp;
-                return true;
-            }
+        // flip
+        m.normal = rFaceNorm.getClone();
+        if (flip) m.normal.negateSelf();
+
+        // Keep points behind reference face
+        int cp = 0;  // clipped points behind reference face
+        double separation = rFaceNorm.dot(iV1) - rC;
+        if (separation <= 0) {
+            m.cPoints[cp++] = iV1.getClone();
+            m.penetration = -separation;
         }
-        return false;
+
+        separation = rFaceNorm.dot(iV2) - rC;
+        if (separation <= 0) {
+            m.cPoints[cp++] = iV2.getClone();
+            m.penetration += -separation;
+
+            m.penetration /= cp;  //average
+        }
+        m.cCount = cp;
+        return true;
     }
 
     private static void findAxisPenetration(Polygon p1, Polygon p2,
                                             MathUtils.IntClass returnedBestInx, MathUtils.DoubleClass returnedBestPen) {
-        double bestPen = Double.MIN_VALUE;
+        double bestPen = -Double.MAX_VALUE;
         int bestInx = 0;
 
         for (int i = 0; i < p1.vCount; i++) {
@@ -144,21 +141,14 @@ public class PolyPoly implements Collision {
         double dist2 = norm.dot(iFace2) - side;
 
         // If negative (behind plane) clip
-        if (dist1 <= 0) {
-            faces[clipNum] = iFace1.getClone();
-            clipNum += 1;
-        }
-        if (dist2 <= 0) {
-            faces[clipNum] = iFace2.getClone();
-            clipNum += 1;
-        }
+        if (dist1 <= 0) faces[clipNum++] = iFace1.getClone();
+        if (dist2 <= 0) faces[clipNum++] = iFace2.getClone();
 
         // If the points are on different sides of the plane
         if (dist1 * dist2 < 0) {
             double alpha = dist1 / (dist2 - dist1);
             faces[clipNum] = (iFace1.sub(iFace2)).mul(alpha);
-            faces[clipNum].addSelf(iFace1);
-            clipNum += 1;
+            faces[clipNum++].addSelf(iFace1);
         }
 
         iFace1.set(faces[0]);

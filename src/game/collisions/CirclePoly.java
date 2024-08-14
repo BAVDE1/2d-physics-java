@@ -16,12 +16,11 @@ public class CirclePoly implements Collision {
 
         // find the best separation within radius
         int vInx = 0;
-        double separation = Double.MIN_VALUE;
+        double separation = -Double.MAX_VALUE;
         for (int i = 0; i < p.vCount; i++) {
             double s = p.normals.get(i).dot(centre.sub(p.getVert(i)));
-            if (s > c.getRadius()) {
-                return false;  // too far away, skip collision
-            } else if (s > separation) {
+            if (s > c.getRadius()) return false;  // too far away, skip collision
+            if (s > separation) {
                 separation = s;
                 vInx = i;
             }
@@ -47,17 +46,13 @@ public class CirclePoly implements Collision {
         // get vertex furthest within c, or None if face should be used
         Vec2 v = dot1 <= 0 ? v1 : (dot2 <= 0 ? v2 : null);
         if (v != null) {
-            if (centre.sub(v).lengthSq() > Math.pow(c.getRadius(), 2)) {
-                return false;
-            }
+            if (centre.sub(v).lengthSq() > Math.pow(c.getRadius(), 2)) return false;
 
             m.normal = p.mat2.mul(v.sub(centre)).normaliseSelf();
             m.cPoints[0] = p.mat2.mul(v).add(p.pos);
         } else {  // face closest
             Vec2 n = p.normals.get(vInx);
-            if ((centre.sub(v1)).dot(n) > c.getRadius()) {
-                return false;
-            }
+            if ((centre.sub(v1)).dot(n) > c.getRadius()) return false;
 
             m.normal = p.mat2.mul(n).negate();
             m.cPoints[0] = c.pos.add(m.normal.mul(c.getRadius()));
